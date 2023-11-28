@@ -4,7 +4,9 @@ package com.fap.cinanhalam.entity;
 import com.fap.cinanhalam.converter.DateConverter;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -21,7 +23,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 
 @Entity
-@Table(name = "parrot")
+@Table(name = "film")
 public class FilmEntity extends BaseEntity{
 
     @NotBlank
@@ -61,5 +63,8 @@ public class FilmEntity extends BaseEntity{
 
     @Column(name="status")
     private Boolean status;
+
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL)
+    private List<FilmCinemaEntity> filmCinemas = new ArrayList<>();
 
 }
