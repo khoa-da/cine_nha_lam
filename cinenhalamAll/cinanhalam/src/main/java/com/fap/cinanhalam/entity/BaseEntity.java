@@ -24,4 +24,8 @@ public abstract class BaseEntity {
     @CreationTimestamp
     @Convert(converter = DateConverter.class) // Use a custom converter
     private Date createdDate;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private Boolean status;
 }
