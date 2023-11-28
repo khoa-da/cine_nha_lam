@@ -2,6 +2,7 @@ package com.fap.cinanhalam.entity;
 
 import com.fap.cinanhalam.converter.DateConverter;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,4 +25,8 @@ public abstract class BaseEntity {
     @CreationTimestamp
     @Convert(converter = DateConverter.class) // Use a custom converter
     private Date createdDate;
+
+    @Column(name = "status")
+    @NotBlank
+    private Boolean status;
 }

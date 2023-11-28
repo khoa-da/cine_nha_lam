@@ -25,8 +25,7 @@ import lombok.*;
 @Table(name = "order_detail")
 public class OrderDetailEntity extends BaseEntity{
 
-  @Column(name="status" , nullable = false)
-  private String status;
+
 
   @Column(name="total_price", nullable = false)
   private Double totalPrice;

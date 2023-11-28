@@ -16,15 +16,12 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class OrderEntity extends BaseEntity{
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
 
-    @Column(name="status", nullable = false)
-    private String status;
+
+
 
     @Column(name="total_price", nullable = false)
     private Double totalPrice;
@@ -38,5 +35,8 @@ public class OrderEntity extends BaseEntity{
     @OneToMany(mappedBy = "order")
     private List<VoucherUsageEntity> voucherUsages = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
 }

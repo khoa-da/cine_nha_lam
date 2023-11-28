@@ -40,13 +40,10 @@ public class TicketEntity extends BaseEntity{
     @OneToOne(mappedBy = "ticket",fetch = FetchType.LAZY)
     private OrderDetailEntity orderDetail;
 
-    @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private String status;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seat_number", nullable = false, unique = true)
-    private SeatEntity seatNumber;
+    @JoinColumn(name = "seat_id", nullable = false, unique = true)
+    private SeatEntity seat;
 
 }
 

@@ -42,8 +42,7 @@ public class FoodEntity extends BaseEntity{
   @Column(name = "size")
   private String size;
 
-  @Column(name = "status", nullable = false)
-  private String status;
+
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "order_detail_id", nullable = false)
