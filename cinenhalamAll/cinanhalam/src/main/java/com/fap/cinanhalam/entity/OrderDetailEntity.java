@@ -27,8 +27,8 @@ public class OrderDetailEntity extends BaseEntity{
 
 
 
-  @Column(name="total_price", nullable = false)
-  private Double totalPrice;
+  @Column(name="price", nullable = false)
+  private Double price;
 
   @Column(name="quantity", nullable = false)
   private int quantity;
@@ -42,7 +42,7 @@ public class OrderDetailEntity extends BaseEntity{
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "order_id", nullable = false)
-  private OrderEntity order;
+  private OrderEntity orderId;
 
 
 

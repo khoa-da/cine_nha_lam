@@ -29,7 +29,7 @@ public class OrderEntity extends BaseEntity{
     @Column(name="quantity", nullable = false)
     private int quantity;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "orderId")
     private List<OrderDetailEntity> orderDetails = new ArrayList<>();
 
     @OneToMany(mappedBy = "order")
@@ -37,6 +37,6 @@ public class OrderEntity extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    private UserEntity userId;
 
 }
