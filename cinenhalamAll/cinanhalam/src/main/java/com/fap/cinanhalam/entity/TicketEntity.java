@@ -48,7 +48,7 @@ public class TicketEntity extends BaseEntity{
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private TicketStatus status;
+    private String status;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seat_number", nullable = false, unique = true)
@@ -56,9 +56,4 @@ public class TicketEntity extends BaseEntity{
 
 }
 
-enum TicketStatus {
-    AVAILABLE,
-    SOLD,
-    RESERVED,
-    CANCELLED
-}
+
