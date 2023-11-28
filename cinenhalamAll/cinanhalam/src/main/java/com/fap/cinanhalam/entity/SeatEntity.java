@@ -16,4 +16,5 @@ import lombok.*;
 @Entity
 @Table(name = "seat")
 public class SeatEntity extends BaseEntity{
+
 }

@@ -19,20 +19,24 @@ import java.util.List;
 @Table(name = "order")
 public class OrderEntity extends BaseEntity{
 
-    @OneToMany(mappedBy = "orderId")
-    private List<OrderDetailEntity> orderDetails = new ArrayList<>();
-
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    @Column(name="status")
+    @Column(name="status", nullable = false)
     private String status;
 
-    @Column(name="total_price")
+    @Column(name="total_price", nullable = false)
     private Double totalPrice;
 
-    @Column(name="quantity")
+    @Column(name="quantity", nullable = false)
     private int quantity;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetailEntity> orderDetails = new ArrayList<>();
+
+    @OneToMany(mappedBy = "order")
+    private List<VoucherUsageEntity> voucherUsages = new ArrayList<>();
+
 
 }

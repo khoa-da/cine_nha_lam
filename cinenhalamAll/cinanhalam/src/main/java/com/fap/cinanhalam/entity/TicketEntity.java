@@ -20,30 +20,24 @@ import java.util.Date;
 @Table(name = "ticket")
 public class TicketEntity extends BaseEntity{
 
-
     @Temporal(TemporalType.DATE) // Specify that only the date part should be stored
     @Column(name = "release_date", updatable = false)
     @CreationTimestamp
     @Convert(converter = DateConverter.class) // Use a custom converter
-    private Date screeningTime; //thời gian chiếu chi tiết, ví dụ 3h ngày 5/11
+    private Date screeningTime;
 
     @Column(name = "price", nullable = false)
     private Double price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id", nullable = false)
-    private ScheduleEntity schedule;    //thời gian chiếu của 1 ngày
+    private ScheduleEntity schedule;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", nullable = false)
-    private RoomEntity room;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_detail_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "ticket",fetch = FetchType.LAZY)
     private OrderDetailEntity orderDetail;
 
     @Column(name = "status", nullable = false)
