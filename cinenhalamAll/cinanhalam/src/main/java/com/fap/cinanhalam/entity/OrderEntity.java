@@ -16,23 +16,27 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class OrderEntity extends BaseEntity{
 
-    @OneToMany(mappedBy = "orderId")
-    private List<OrderDetailEntity> orderDetails = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private UserEntity user;
 
-    @Column(name="status")
-    private String status;
 
-    @Column(name="total_price")
+
+    @Column(name="total_price", nullable = false)
     private Double totalPrice;
 
-    @Column(name="quantity")
+    @Column(name="quantity", nullable = false)
     private int quantity;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetailEntity> orderDetails = new ArrayList<>();
+
+    @OneToMany(mappedBy = "order")
+    private List<VoucherUsageEntity> voucherUsages = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
 }

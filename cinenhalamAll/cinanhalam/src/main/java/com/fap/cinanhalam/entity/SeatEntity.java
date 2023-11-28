@@ -21,6 +21,7 @@ import java.util.List;
 @Table(name = "seat")
 public class SeatEntity extends BaseEntity{
 
+
     @NotBlank
     @Column(name = "seat_number")
     private String seatNumber;
@@ -34,6 +35,7 @@ public class SeatEntity extends BaseEntity{
     @JoinColumn(name = "room_id")
     private RoomEntity room;
 
-
+    @OneToOne(mappedBy = "seat")
+    private TicketEntity ticket;
 
 }
