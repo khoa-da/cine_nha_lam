@@ -41,6 +41,6 @@ public class CinemaEntity extends BaseEntity{
     @Column(name = "opening_hours")
     private String openingHours; // Giờ mở cửa của rạp
 
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cinema")
     private List<FilmCinemaEntity> filmCinemas = new ArrayList<>();
 }

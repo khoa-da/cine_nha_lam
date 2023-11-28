@@ -64,7 +64,7 @@ public class FilmEntity extends BaseEntity{
     @Column(name="status")
     private Boolean status;
 
-    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "film")
     private List<FilmCinemaEntity> filmCinemas = new ArrayList<>();
 
 }

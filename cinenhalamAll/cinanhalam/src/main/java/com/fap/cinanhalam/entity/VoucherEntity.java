@@ -62,8 +62,8 @@ public class VoucherEntity extends BaseEntity{
   private Boolean status;
 
 
-  @OneToMany(mappedBy = "promotion")
-  private List<OrderEntity> orders = new ArrayList<>();
+//  @OneToMany(mappedBy = "promotion")
+//  private List<OrderEntity> orders = new ArrayList<>();
 
   @Column(name="quanity")
   private int quantity;

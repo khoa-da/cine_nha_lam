@@ -29,6 +29,6 @@ public class CategoryEntity extends BaseEntity{
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category")
     private List<FilmCategoryEntity> filmCategories = new ArrayList<>();
 }
