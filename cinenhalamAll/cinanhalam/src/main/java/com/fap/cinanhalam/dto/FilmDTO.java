@@ -1,7 +1,13 @@
 package com.fap.cinanhalam.dto;
 
-import java.util.Date;
+import lombok.*;
 
+import java.util.Date;
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class FilmDTO extends BaseDTO{
     private String name;
     private Double price;

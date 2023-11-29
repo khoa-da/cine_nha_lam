@@ -46,6 +46,4 @@ public class PostEntity extends BaseEntity{
     @Column(name = "end_date")
     private String endDate;
 
-    @Column(name = "status")
-    private Boolean status;
 }

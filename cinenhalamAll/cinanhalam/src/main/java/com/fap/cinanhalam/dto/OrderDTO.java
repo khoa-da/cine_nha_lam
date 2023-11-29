@@ -1,5 +1,12 @@
 package com.fap.cinanhalam.dto;
 
+import lombok.*;
+
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class OrderDTO extends BaseDTO{
 
     private Long userId;
