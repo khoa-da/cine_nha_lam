@@ -43,4 +43,8 @@ public class CinemaEntity extends BaseEntity{
 
     @OneToMany(mappedBy = "cinema")
     private List<FilmCinemaEntity> filmCinemas = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "province_id", nullable = false)
+    private ProvinceEntity province;
 }
