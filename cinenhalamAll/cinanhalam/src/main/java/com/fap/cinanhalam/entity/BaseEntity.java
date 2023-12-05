@@ -3,6 +3,7 @@ package com.fap.cinanhalam.entity;
 import com.fap.cinanhalam.converter.DateConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,6 +28,11 @@ public abstract class BaseEntity {
     private Date createdDate;
 
     @Column(name = "status")
-    @NotBlank
+    @NotNull
     private Boolean status;
-}
+
+    @PrePersist
+    public void prePersist() {
+        this.status = true;
+    }
+    }
