@@ -2,7 +2,9 @@ package com.fap.cinanhalam.service.impl;
 
 import com.fap.cinanhalam.converter.GenericConverter;
 import com.fap.cinanhalam.dto.ScheduleDTO;
+import com.fap.cinanhalam.entity.FilmEntity;
 import com.fap.cinanhalam.entity.ScheduleEntity;
+import com.fap.cinanhalam.repository.FilmRepository;
 import com.fap.cinanhalam.repository.ScheduleRepository;
 import com.fap.cinanhalam.service.IGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ public class ScheduleService implements IGenericService<ScheduleDTO> {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
+    @Autowired
+    private FilmRepository filmRepository;
     @Autowired
     GenericConverter genericConverter;
 
@@ -49,7 +53,14 @@ public class ScheduleService implements IGenericService<ScheduleDTO> {
             ScheduleEntity oldEntity = scheduleRepository.findOneById(scheduleDTO.getId());
             scheduleEntity = (ScheduleEntity) genericConverter.updateEntity(scheduleDTO, oldEntity);
         } else {
-            scheduleEntity = (ScheduleEntity) genericConverter.toEntity(scheduleDTO, ScheduleEntity.class);
+            String film = scheduleDTO.getFilmName();
+            FilmEntity existingFilm = filmRepository.findOneByNameAndStatusTrue(film);
+            if(existingFilm != null) {
+                scheduleEntity = (ScheduleEntity) genericConverter.toEntity(scheduleDTO, ScheduleEntity.class);
+                scheduleEntity.setFilm(existingFilm);
+            }else{
+                throw new RuntimeException("Film with name " + film + " not found.");
+            }
         }
         scheduleRepository.save(scheduleEntity);
         return (ScheduleDTO) genericConverter.toDTO(scheduleEntity, ScheduleDTO.class);
@@ -73,12 +84,6 @@ public class ScheduleService implements IGenericService<ScheduleDTO> {
 
     @Override
     public List<ScheduleDTO> findAll(Pageable pageable) {
-        List<ScheduleDTO> result = new ArrayList<>();
-        List<ScheduleEntity> entities = scheduleRepository.findAll(pageable).getContent();
-        for (ScheduleEntity entity: entities){
-            ScheduleDTO scheduleDTO = (ScheduleDTO) genericConverter.toDTO(entity, ScheduleDTO.class);
-            result.add(scheduleDTO);
-        }
-        return result;
+        return null;
     }
 }

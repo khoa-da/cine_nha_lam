@@ -2,8 +2,13 @@ package com.fap.cinanhalam.service.impl;
 
 import com.fap.cinanhalam.converter.GenericConverter;
 import com.fap.cinanhalam.dto.FilmCinemaDTO;
+import com.fap.cinanhalam.entity.CategoryEntity;
+import com.fap.cinanhalam.entity.CinemaEntity;
 import com.fap.cinanhalam.entity.FilmCinemaEntity;
+import com.fap.cinanhalam.entity.FilmEntity;
+import com.fap.cinanhalam.repository.CinemaRepository;
 import com.fap.cinanhalam.repository.FilmCinemaRepository;
+import com.fap.cinanhalam.repository.FilmRepository;
 import com.fap.cinanhalam.service.IGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +21,12 @@ public class FilmCinemaService implements IGenericService<FilmCinemaDTO> {
 
     @Autowired
     private FilmCinemaRepository filmCinemaRepository;
+
+    @Autowired
+    private FilmRepository filmRepository;
+
+    @Autowired
+    private CinemaRepository cinemaRepository;
 
     @Autowired
     GenericConverter genericConverter;
@@ -49,7 +60,21 @@ public class FilmCinemaService implements IGenericService<FilmCinemaDTO> {
             FilmCinemaEntity oldEntity = filmCinemaRepository.findOneById(filmCinemaDTO.getId());
             filmCinemaEntity = (FilmCinemaEntity) genericConverter.updateEntity(filmCinemaDTO, oldEntity);
         } else {
-            filmCinemaEntity = (FilmCinemaEntity) genericConverter.toEntity(filmCinemaDTO, FilmCinemaEntity.class);
+            Long filmId = filmCinemaDTO.getFilmId();
+            Long cinemaId = filmCinemaDTO.getCinemaId();
+            FilmEntity existingFilm = filmRepository.findOneByIdAndStatusTrue(filmId);
+            CinemaEntity existingCinema = cinemaRepository.findOneByIdAndStatusTrue(cinemaId);
+            if(existingFilm != null && existingCinema != null) {
+                filmCinemaEntity = (FilmCinemaEntity) genericConverter.toEntity(filmCinemaDTO, FilmCinemaEntity.class);
+                filmCinemaEntity.setFilm(existingFilm);
+                filmCinemaEntity.setCinema(existingCinema);
+            }else{
+                if(existingFilm == null) {
+                    throw new RuntimeException("Film with id " + filmId + " not found.");
+                }else{
+                    throw new RuntimeException("Cinema with id " + cinemaId + " not found.");
+                }
+            }
         }
         filmCinemaRepository.save(filmCinemaEntity);
         return (FilmCinemaDTO) genericConverter.toDTO(filmCinemaEntity, FilmCinemaDTO.class);
@@ -73,12 +98,6 @@ public class FilmCinemaService implements IGenericService<FilmCinemaDTO> {
 
     @Override
     public List<FilmCinemaDTO> findAll(Pageable pageable) {
-        List<FilmCinemaDTO> result = new ArrayList<>();
-        List<FilmCinemaEntity> entities = filmCinemaRepository.findAll(pageable).getContent();
-        for (FilmCinemaEntity entity: entities){
-            FilmCinemaDTO filmCinemaDTO = (FilmCinemaDTO) genericConverter.toDTO(entity, FilmCinemaDTO.class);
-            result.add(filmCinemaDTO);
-        }
-        return result;
+        return null;
     }
 }

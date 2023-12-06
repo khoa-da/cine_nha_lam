@@ -1,20 +1,22 @@
 package com.fap.cinanhalam.dto;
 
-import com.fap.cinanhalam.entity.FilmEntity;
-import com.fap.cinanhalam.entity.TicketEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-
 import java.util.Date;
-import java.util.List;
 
-
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class ScheduleDTO extends BaseDTO{
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date screeningDate;
-    private Integer startHour;
-    private Integer endHour;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    private Date startHour;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    private Date endHour;
+    private String filmName;
 }

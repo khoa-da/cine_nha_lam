@@ -9,5 +9,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class FilmCinemaDTO extends BaseDTO{
-    private Date screeningTime;
+    private Long filmId;
+    private Long cinemaId;
 }

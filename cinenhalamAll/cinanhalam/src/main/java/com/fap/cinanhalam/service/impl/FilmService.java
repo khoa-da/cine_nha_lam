@@ -2,7 +2,9 @@ package com.fap.cinanhalam.service.impl;
 
 import com.fap.cinanhalam.converter.GenericConverter;
 import com.fap.cinanhalam.dto.FilmDTO;
+import com.fap.cinanhalam.entity.CategoryEntity;
 import com.fap.cinanhalam.entity.FilmEntity;
+import com.fap.cinanhalam.repository.CategoryRepository;
 import com.fap.cinanhalam.repository.FilmRepository;
 import com.fap.cinanhalam.service.IGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ public class FilmService implements IGenericService<FilmDTO> {
 
     @Autowired
     private FilmRepository filmRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     GenericConverter genericConverter;
@@ -44,7 +49,7 @@ public class FilmService implements IGenericService<FilmDTO> {
 
     @Override
     public FilmDTO save(FilmDTO filmDTO) {
-        FilmEntity filmEntity = new FilmEntity();
+        FilmEntity filmEntity;
         if (filmDTO.getId() != null) {
             FilmEntity oldEntity = filmRepository.findOneById(filmDTO.getId());
             filmEntity = (FilmEntity) genericConverter.updateEntity(filmDTO, oldEntity);
@@ -73,12 +78,6 @@ public class FilmService implements IGenericService<FilmDTO> {
 
     @Override
     public List<FilmDTO> findAll(Pageable pageable) {
-        List<FilmDTO> result = new ArrayList<>();
-        List<FilmEntity> entities = filmRepository.findAll(pageable).getContent();
-        for (FilmEntity entity: entities){
-            FilmDTO filmDTO = (FilmDTO) genericConverter.toDTO(entity, FilmDTO.class);
-            result.add(filmDTO);
-        }
-        return result;
+        return null;
     }
 }

@@ -73,12 +73,6 @@ public class ProvinceService implements IGenericService<ProvinceDTO> {
 
     @Override
     public List<ProvinceDTO> findAll(Pageable pageable) {
-        List<ProvinceDTO> result = new ArrayList<>();
-        List<ProvinceEntity> entities = provinceRepository.findAll(pageable).getContent();
-        for (ProvinceEntity entity: entities){
-            ProvinceDTO provinceDTO = (ProvinceDTO) genericConverter.toDTO(entity, ProvinceDTO.class);
-            result.add(provinceDTO);
-        }
-        return result;
+        return null;
     }
 }

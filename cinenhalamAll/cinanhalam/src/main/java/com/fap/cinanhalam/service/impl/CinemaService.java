@@ -3,7 +3,9 @@ package com.fap.cinanhalam.service.impl;
 import com.fap.cinanhalam.converter.GenericConverter;
 import com.fap.cinanhalam.dto.CinemaDTO;
 import com.fap.cinanhalam.entity.CinemaEntity;
+import com.fap.cinanhalam.entity.ProvinceEntity;
 import com.fap.cinanhalam.repository.CinemaRepository;
+import com.fap.cinanhalam.repository.ProvinceRepository;
 import com.fap.cinanhalam.service.IGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,9 @@ public class CinemaService implements IGenericService<CinemaDTO> {
 
     @Autowired
     private CinemaRepository cinemaRepository;
+
+    @Autowired
+    private ProvinceRepository provinceRepository;
 
     @Autowired
     GenericConverter genericConverter;
@@ -49,7 +54,14 @@ public class CinemaService implements IGenericService<CinemaDTO> {
             CinemaEntity oldEntity = cinemaRepository.findOneById(cinemaDTO.getId());
             cinemaEntity = (CinemaEntity) genericConverter.updateEntity(cinemaDTO, oldEntity);
         } else {
-            cinemaEntity = (CinemaEntity) genericConverter.toEntity(cinemaDTO, CinemaEntity.class);
+            String provinceName = cinemaDTO.getProvinceName();
+            ProvinceEntity existingProvince = provinceRepository.findOneByNameAndStatusTrue(provinceName);
+            if (existingProvince != null) {
+                cinemaEntity = (CinemaEntity) genericConverter.toEntity(cinemaDTO, CinemaEntity.class);
+                cinemaEntity.setProvince(existingProvince);
+            }else{
+                throw new RuntimeException("Province with name " + provinceName + " not found.");
+            }
         }
         cinemaRepository.save(cinemaEntity);
         return (CinemaDTO) genericConverter.toDTO(cinemaEntity, CinemaDTO.class);
@@ -73,12 +85,6 @@ public class CinemaService implements IGenericService<CinemaDTO> {
 
     @Override
     public List<CinemaDTO> findAll(Pageable pageable) {
-        List<CinemaDTO> result = new ArrayList<>();
-        List<CinemaEntity> entities = cinemaRepository.findAll(pageable).getContent();
-        for (CinemaEntity entity: entities){
-            CinemaDTO cinemaDTO = (CinemaDTO) genericConverter.toDTO(entity, CinemaDTO.class);
-            result.add(cinemaDTO);
-        }
-        return result;
+        return null;
     }
 }

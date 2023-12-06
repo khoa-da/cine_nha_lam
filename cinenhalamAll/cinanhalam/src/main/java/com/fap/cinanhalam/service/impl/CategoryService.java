@@ -76,12 +76,6 @@ public class CategoryService implements IGenericService<CategoryDTO> {
 
     @Override
     public List<CategoryDTO> findAll(Pageable pageable) {
-        List<CategoryDTO> result = new ArrayList<>();
-        List<CategoryEntity> entities = categoryRepository.findAll(pageable).getContent();
-        for (CategoryEntity entity: entities){
-            CategoryDTO categoryDTO = (CategoryDTO) genericConverter.toDTO(entity, CategoryDTO.class);
-            result.add(categoryDTO);
-        }
-        return result;
+        return null;
     }
 }

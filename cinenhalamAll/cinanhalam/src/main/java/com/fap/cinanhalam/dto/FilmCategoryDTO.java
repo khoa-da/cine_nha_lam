@@ -8,6 +8,6 @@ import lombok.*;
 @Getter
 @Setter
 public class FilmCategoryDTO extends BaseDTO{
-    private String name;
-    private String description;
+    private Long filmId;
+    private Long categoryId;
 }

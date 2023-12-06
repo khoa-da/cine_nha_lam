@@ -27,8 +27,7 @@ public abstract class BaseEntity {
     @Convert(converter = DateConverter.class) // Use a custom converter
     private Date createdDate;
 
-    @Column(name = "status")
-    @NotNull
+    @Column(name = "status", nullable = false)
     private Boolean status;
 
     @PrePersist

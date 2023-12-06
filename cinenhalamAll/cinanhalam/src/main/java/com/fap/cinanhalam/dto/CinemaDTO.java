@@ -12,15 +12,17 @@ import lombok.*;
 @Setter
 public class CinemaDTO extends BaseDTO{
 
-    private String name; // Tên của rạp chiếu phim
+    private String name;
 
-    private String location; // Địa điểm của rạp chiếu phim
+    private String location;
 
     private int capacity; // Sức chứa tổng cộng của rạp chiếu phim
 
-    private String contactNumber; // Số điện thoại liên hệ của rạp
+    private String contactNumber;
 
-    private String website; // Địa chỉ website của rạp
+    private String website;
 
-    private String openingHours; // Giờ mở cửa của rạp
+    private String openingHours;
+
+    private String provinceName;
 }

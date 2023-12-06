@@ -25,7 +25,7 @@ public class ProvinceEntity extends BaseEntity{
 
     @NotBlank
     @Size(min = 1, max = 100)
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @OneToMany(mappedBy = "province")
