@@ -1,5 +1,6 @@
 package com.fap.cinanhalam.dto;
 
+import java.util.List;
 import lombok.*;
 
 @ToString
@@ -8,8 +9,8 @@ import lombok.*;
 @Getter
 @Setter
 public class OrderDetailDTO extends BaseDTO{
-    private Long orderId;
     private Double price;
     private int quantity;
     private Long ticketId;
+    private Long orderId;
 }

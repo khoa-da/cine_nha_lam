@@ -20,9 +20,6 @@ import java.util.List;
 public class OrderEntity extends BaseEntity{
 
 
-
-
-
     @Column(name="total_price", nullable = false)
     private Double totalPrice;
 

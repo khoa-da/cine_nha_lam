@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -23,29 +25,23 @@ import lombok.*;
 
 @Entity
 @Table(name = "order_detail")
-public class OrderDetailEntity extends BaseEntity{
+public class OrderDetailEntity extends BaseEntity {
 
-
-
-  @Column(name="price", nullable = false)
+  @Column(name = "price", nullable = false)
   private Double price;
 
-  @Column(name="quantity", nullable = false)
+  @Column(name = "quantity", nullable = false)
   private int quantity;
 
   @OneToOne
-  @JoinColumn(name = "ticket_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "ticket_id", referencedColumnName = "id", nullable = true)
   private TicketEntity ticket;
 
-  @OneToMany(mappedBy = "orderDetail")
-  private List<FoodEntity> foodEntities = new ArrayList<>();
-
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "order_id", nullable = false)
+  @JoinColumn(name = "order_id", nullable = true)
   private OrderEntity orderId;
 
-
-
-
-
+  @OneToMany(mappedBy = "orderDetail")
+  private List<FoodOrderDetailEntity> foodOrderDetails = new ArrayList<>();
 }
+
