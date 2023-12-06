@@ -1,5 +1,6 @@
 package com.fap.cinanhalam.dto;
 
+
 import lombok.*;
 
 @ToString
@@ -7,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class FilmCategoryDTO extends BaseDTO{
-    private Long filmId;
-    private Long categoryId;
+public class ProvinceDTO extends BaseDTO{
+    private String name;
 }

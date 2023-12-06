@@ -65,9 +65,6 @@ public class FilmEntity extends BaseEntity{
     private Boolean status;
 
     @OneToMany(mappedBy = "film")
-    private List<ScheduleEntity> schedules;
-
-    @OneToMany(mappedBy = "film")
     private List<FilmCinemaEntity> filmCinemas = new ArrayList<>();
 
 }

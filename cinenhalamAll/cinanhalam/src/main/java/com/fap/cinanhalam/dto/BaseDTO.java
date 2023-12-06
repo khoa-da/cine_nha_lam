@@ -14,5 +14,5 @@ import java.util.Date;
 public class BaseDTO {
     private Long id;
     private Date createdDate;
-    private Boolean status;
+    private Boolean status = true;
 }
