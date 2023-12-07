@@ -51,6 +51,11 @@ public class FoodEntity extends BaseEntity {
   @Column(name = "size")
   private String size;
 
+  @NotBlank
+  @Column(name = "image")
+  private String image;
+
   @OneToMany(mappedBy = "food")
   private List<FoodOrderDetailEntity> foodOrderDetails = new ArrayList<>();
+
 }

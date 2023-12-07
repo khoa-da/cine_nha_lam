@@ -26,22 +26,22 @@ public class TicketEntity extends BaseEntity{
     @Convert(converter = DateConverter.class) // Use a custom converter
     private Date screeningTime;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price", nullable = true)
     private Double price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id", nullable = false)
+    @JoinColumn(name = "schedule_id", nullable = true)
     private ScheduleEntity schedule;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private UserEntity user;
 
     @OneToOne(mappedBy = "ticket",fetch = FetchType.LAZY)
     private OrderDetailEntity orderDetail;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seat_id", nullable = false, unique = true)
+    @JoinColumn(name = "seat_id", nullable = true, unique = true)
     private SeatEntity seat;
 
 }

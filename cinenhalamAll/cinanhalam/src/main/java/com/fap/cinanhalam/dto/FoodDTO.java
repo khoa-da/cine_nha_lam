@@ -14,4 +14,6 @@ public class FoodDTO extends BaseDTO{
     private double price;
     private String type;
     private String size;
+    private String image;
+
 }

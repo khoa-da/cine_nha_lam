@@ -53,17 +53,13 @@ public class VoucherEntity extends BaseEntity{
   private Date startDate;
 
 
-  @Temporal(TemporalType.DATE) // Specify that only the date part should be stored
+  @Temporal(TemporalType.DATE)
   @Column(name = "end_date")
-  @Convert(converter = DateConverter.class) // Use a custom converter
+  @Convert(converter = DateConverter.class)
   private Date endDate;
 
   @Column(name = "status")
   private Boolean status;
-
-
-//  @OneToMany(mappedBy = "promotion")
-//  private List<OrderEntity> orders = new ArrayList<>();
 
   @Column(name="quanity")
   private int quantity;

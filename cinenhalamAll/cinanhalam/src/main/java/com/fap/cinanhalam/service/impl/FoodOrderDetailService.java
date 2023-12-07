@@ -35,31 +35,48 @@ public class FoodOrderDetailService implements IGenericService<FoodOrderDetailDT
 
   @Override
   public List<FoodOrderDetailDTO> findAllWithStatusIsTrue() {
-    // Implement this method based on your requirements
-    return null;
+    List<FoodOrderDetailDTO> result = new ArrayList<>();
+    List<FoodOrderDetailEntity> entities = foodOrderDetailRepository.findAllByStatusTrue();
+
+    for (FoodOrderDetailEntity entity : entities) {
+      FoodOrderDetailDTO dto = (FoodOrderDetailDTO) genericConverter.toDTO(entity, FoodOrderDetailDTO.class);
+      result.add(dto);
+    }
+    return result;
   }
 
   @Override
   public FoodOrderDetailDTO save(FoodOrderDetailDTO foodOrderDetailDTO) {
-    // Implement this method based on your requirements
-    return null;
+    FoodOrderDetailEntity foodOrderDetailEntity = new FoodOrderDetailEntity();
+    if (foodOrderDetailDTO.getId() != null) {
+      FoodOrderDetailEntity oldEntity = foodOrderDetailRepository.getReferenceById(foodOrderDetailDTO.getId());
+      foodOrderDetailEntity = (FoodOrderDetailEntity) genericConverter.updateEntity(foodOrderDetailDTO, oldEntity);
+    } else {
+      foodOrderDetailEntity = (FoodOrderDetailEntity) genericConverter.toEntity(foodOrderDetailDTO, FoodOrderDetailEntity.class);
+    }
+    foodOrderDetailRepository.save(foodOrderDetailEntity);
+    return (FoodOrderDetailDTO) genericConverter.toDTO(foodOrderDetailEntity, FoodOrderDetailDTO.class);
   }
 
   @Override
   public void changeStatus(Long ids) {
-    // Implement this method based on your requirements
+    FoodOrderDetailEntity foodOrderDetailEntity = foodOrderDetailRepository.findOneById(ids);
+    if (foodOrderDetailEntity.getStatus() == true) {
+      foodOrderDetailEntity.setStatus(false);
+    } else {
+      foodOrderDetailEntity.setStatus(true);
+    }
+    foodOrderDetailRepository.save(foodOrderDetailEntity);
   }
 
   @Override
   public int totalItem() {
-    // Implement this method based on your requirements
-    return 0;
+    return (int) foodOrderDetailRepository.count();
   }
 
   @Override
   public List<FoodOrderDetailDTO> findAll(Pageable pageable) {
+    // Implement this method based on your requirements
     return null;
   }
-
-
 }

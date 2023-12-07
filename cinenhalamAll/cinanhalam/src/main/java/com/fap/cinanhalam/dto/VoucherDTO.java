@@ -4,7 +4,7 @@ import java.util.Date;
 import lombok.*;
 
 
-public class VoucherDTO {
+public class VoucherDTO extends BaseDTO{
   private String name;
   private String code;
   private String description;
