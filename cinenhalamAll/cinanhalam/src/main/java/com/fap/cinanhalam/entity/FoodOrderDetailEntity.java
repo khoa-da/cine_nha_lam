@@ -1,6 +1,8 @@
 package com.fap.cinanhalam.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -24,11 +26,14 @@ import lombok.ToString;
 public class FoodOrderDetailEntity extends BaseEntity {
 
   @ManyToOne
-  @JoinColumn(name = "food_id", nullable = false)
+  @JoinColumn(name = "food_id", nullable = true)
   private FoodEntity food;
 
   @ManyToOne
-  @JoinColumn(name = "order_detail_id", nullable = false)
+  @JoinColumn(name = "order_detail_id", nullable = true)
   private OrderDetailEntity orderDetail;
+
+  @Column(name = "quantity", nullable = true)
+  private int quantity;
 
 }

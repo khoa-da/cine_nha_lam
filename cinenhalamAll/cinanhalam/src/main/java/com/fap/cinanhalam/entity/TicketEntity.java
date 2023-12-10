@@ -38,7 +38,7 @@ public class TicketEntity extends BaseEntity{
     private UserEntity user;
 
     @OneToOne(mappedBy = "ticket",fetch = FetchType.LAZY)
-    private OrderDetailEntity orderDetail;
+    private TicketDetailEntity ticketDetail;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seat_id", nullable = true, unique = true)

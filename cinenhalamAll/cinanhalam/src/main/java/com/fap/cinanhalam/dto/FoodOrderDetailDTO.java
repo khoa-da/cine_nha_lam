@@ -16,5 +16,8 @@ import lombok.ToString;
   public class FoodOrderDetailDTO extends BaseDTO {
     private Long foodId;
     private Long orderDetailId;
+    private int quantity;
+    private FoodDTO foodDTO;
+
   }
 

@@ -1,9 +1,12 @@
 package com.fap.cinanhalam.service.impl;
 
 import com.fap.cinanhalam.converter.GenericConverter;
+import com.fap.cinanhalam.dto.FoodDTO;
 import com.fap.cinanhalam.dto.FoodOrderDetailDTO;
+import com.fap.cinanhalam.entity.FoodEntity;
 import com.fap.cinanhalam.entity.FoodOrderDetailEntity;
 import com.fap.cinanhalam.repository.FoodOrderDetailRepository;
+import com.fap.cinanhalam.repository.FoodRepository;
 import com.fap.cinanhalam.service.IGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -19,15 +22,20 @@ public class FoodOrderDetailService implements IGenericService<FoodOrderDetailDT
   private FoodOrderDetailRepository foodOrderDetailRepository;
 
   @Autowired
+  private FoodRepository foodRepository;
+
+  @Autowired
   private GenericConverter genericConverter;
 
   @Override
   public List<FoodOrderDetailDTO> findAll() {
     List<FoodOrderDetailDTO> result = new ArrayList<>();
     List<FoodOrderDetailEntity> entities = foodOrderDetailRepository.findAll();
-
     for (FoodOrderDetailEntity entity : entities) {
+      FoodEntity existFood = foodRepository.findOneById(entity.getFood().getId());
+      FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
       FoodOrderDetailDTO dto = (FoodOrderDetailDTO) genericConverter.toDTO(entity, FoodOrderDetailDTO.class);
+      dto.setFoodDTO(foodDTO);
       result.add(dto);
     }
     return result;
@@ -39,7 +47,10 @@ public class FoodOrderDetailService implements IGenericService<FoodOrderDetailDT
     List<FoodOrderDetailEntity> entities = foodOrderDetailRepository.findAllByStatusTrue();
 
     for (FoodOrderDetailEntity entity : entities) {
+      FoodEntity existFood = foodRepository.findOneById(entity.getFood().getId());
+      FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
       FoodOrderDetailDTO dto = (FoodOrderDetailDTO) genericConverter.toDTO(entity, FoodOrderDetailDTO.class);
+      dto.setFoodDTO(foodDTO);
       result.add(dto);
     }
     return result;
@@ -47,15 +58,20 @@ public class FoodOrderDetailService implements IGenericService<FoodOrderDetailDT
 
   @Override
   public FoodOrderDetailDTO save(FoodOrderDetailDTO foodOrderDetailDTO) {
-    FoodOrderDetailEntity foodOrderDetailEntity = new FoodOrderDetailEntity();
+    FoodOrderDetailEntity foodOrderDetailEntity;
+    FoodEntity existFood = foodRepository.findOneById(foodOrderDetailDTO.getFoodId());
+    FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
     if (foodOrderDetailDTO.getId() != null) {
       FoodOrderDetailEntity oldEntity = foodOrderDetailRepository.getReferenceById(foodOrderDetailDTO.getId());
       foodOrderDetailEntity = (FoodOrderDetailEntity) genericConverter.updateEntity(foodOrderDetailDTO, oldEntity);
     } else {
       foodOrderDetailEntity = (FoodOrderDetailEntity) genericConverter.toEntity(foodOrderDetailDTO, FoodOrderDetailEntity.class);
+      foodOrderDetailEntity.setFood(existFood);
     }
     foodOrderDetailRepository.save(foodOrderDetailEntity);
-    return (FoodOrderDetailDTO) genericConverter.toDTO(foodOrderDetailEntity, FoodOrderDetailDTO.class);
+    FoodOrderDetailDTO result = (FoodOrderDetailDTO) genericConverter.toDTO(foodOrderDetailEntity, FoodOrderDetailDTO.class);
+    result.setFoodDTO(foodDTO);
+    return result;
   }
 
   @Override

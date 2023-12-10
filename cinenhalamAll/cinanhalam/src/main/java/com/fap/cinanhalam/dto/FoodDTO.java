@@ -10,7 +10,7 @@ import lombok.*;
 public class FoodDTO extends BaseDTO{
     private String name;
     private String description;
-    private int quantity;
+    private int stock;
     private double price;
     private String type;
     private String size;

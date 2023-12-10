@@ -11,6 +11,8 @@ import lombok.*;
 public class OrderDetailDTO extends BaseDTO{
     private Double price;
     private int quantity;
+    private List<FoodOrderDetailOutputDTO> foodList;
     private Long ticketId;
     private Long orderId;
+
 }
