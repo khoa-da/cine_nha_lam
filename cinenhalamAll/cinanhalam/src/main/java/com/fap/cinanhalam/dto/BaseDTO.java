@@ -13,6 +13,6 @@ import java.util.Date;
 @Setter
 public class BaseDTO {
     private Long id;
-    private Date createdDate;
+    private Date createdDate = new Date();
     private Boolean status = true;
 }
