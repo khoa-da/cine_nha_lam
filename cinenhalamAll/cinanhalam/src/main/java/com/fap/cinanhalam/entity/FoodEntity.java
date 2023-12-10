@@ -37,7 +37,7 @@ public class FoodEntity extends BaseEntity {
 
   @NotNull
   @Column(name = "quantity")
-  private Integer quantity;
+  private Integer stock;
 
   @NotNull
   @Column(name = "price")

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class FoodOrderDetailController {
 
+
     @Autowired
     private FoodOrderDetailService foodOrderDetailService;
 
@@ -44,3 +45,6 @@ public class FoodOrderDetailController {
         foodOrderDetailService.changeStatus(id);
     }
 }
+
+
+

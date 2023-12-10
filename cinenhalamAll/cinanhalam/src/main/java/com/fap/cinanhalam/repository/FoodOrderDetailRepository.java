@@ -8,4 +8,6 @@ public interface FoodOrderDetailRepository extends JpaRepository<FoodOrderDetail
       List<FoodOrderDetailEntity> findAllByStatusTrue();
 
       FoodOrderDetailEntity findOneById(Long id);
+
+      List<FoodOrderDetailEntity> findByOrderDetailId(Long id);
 }

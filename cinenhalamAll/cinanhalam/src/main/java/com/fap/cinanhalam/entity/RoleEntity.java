@@ -36,6 +36,5 @@ public class RoleEntity extends BaseEntity{
     @OneToMany(mappedBy = "role")
     private List<UserEntity> users = new ArrayList<>();
 
-    @Column(name ="status")
-    private Boolean status;
+
 }

@@ -1,8 +1,14 @@
 package com.fap.cinanhalam.service.impl;
 
 import com.fap.cinanhalam.converter.GenericConverter;
+import com.fap.cinanhalam.dto.FoodDTO;
+import com.fap.cinanhalam.dto.FoodOrderDetailOutputDTO;
 import com.fap.cinanhalam.dto.OrderDetailDTO;
+import com.fap.cinanhalam.entity.FoodEntity;
+import com.fap.cinanhalam.entity.FoodOrderDetailEntity;
 import com.fap.cinanhalam.entity.OrderDetailEntity;
+import com.fap.cinanhalam.repository.FoodOrderDetailRepository;
+import com.fap.cinanhalam.repository.FoodRepository;
 import com.fap.cinanhalam.repository.OrderDetailRepository;
 import com.fap.cinanhalam.service.IGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +25,12 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
   private OrderDetailRepository orderDetailRepository;
 
   @Autowired
+  private FoodOrderDetailRepository foodOrderDetailRepository;
+
+  @Autowired
+  private FoodRepository foodRepository;
+
+  @Autowired
   private GenericConverter genericConverter;
 
   @Override
@@ -28,10 +40,27 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
 
     for (OrderDetailEntity entity : entities) {
       OrderDetailDTO orderDetailDTO = (OrderDetailDTO) genericConverter.toDTO(entity, OrderDetailDTO.class);
+
+      // Thực hiện truy vấn để lấy danh sách FoodOrderDetailOutputDTO
+      List<FoodOrderDetailEntity> foodOrderDetails = foodOrderDetailRepository.findByOrderDetailId(entity.getId());
+      List<FoodOrderDetailOutputDTO> FoodOrderDetailOutputDTOs = new ArrayList<>();
+
+      for (FoodOrderDetailEntity foodOrderDetailEntity : foodOrderDetails) {
+        FoodEntity existFood = foodRepository.findOneById(foodOrderDetailEntity.getFood().getId());
+        FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
+
+        FoodOrderDetailOutputDTO FoodOrderDetailOutputDTO = (FoodOrderDetailOutputDTO) genericConverter.toDTO(foodOrderDetailEntity, FoodOrderDetailOutputDTO.class);
+        FoodOrderDetailOutputDTO.setFoodDTO(foodDTO);
+        FoodOrderDetailOutputDTOs.add(FoodOrderDetailOutputDTO);
+      }
+
+      // Set danh sách FoodOrderDetailOutputDTO vào OrderDetailDTO
+      orderDetailDTO.setFoodList(FoodOrderDetailOutputDTOs);
       result.add(orderDetailDTO);
     }
     return result;
   }
+
 
   @Override
   public List<OrderDetailDTO> findAllWithStatusIsTrue() {
@@ -40,6 +69,22 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
 
     for (OrderDetailEntity entity : entities) {
       OrderDetailDTO orderDetailDTO = (OrderDetailDTO) genericConverter.toDTO(entity, OrderDetailDTO.class);
+
+      // Thực hiện truy vấn để lấy danh sách FoodOrderDetailOutputDTO
+      List<FoodOrderDetailEntity> foodOrderDetails = foodOrderDetailRepository.findByOrderDetailId(entity.getId());
+      List<FoodOrderDetailOutputDTO> FoodOrderDetailOutputDTOs = new ArrayList<>();
+
+      for (FoodOrderDetailEntity foodOrderDetailEntity : foodOrderDetails) {
+        FoodEntity existFood = foodRepository.findOneById(foodOrderDetailEntity.getFood().getId());
+        FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
+
+        FoodOrderDetailOutputDTO FoodOrderDetailOutputDTO = (FoodOrderDetailOutputDTO) genericConverter.toDTO(foodOrderDetailEntity, FoodOrderDetailOutputDTO.class);
+        FoodOrderDetailOutputDTO.setFoodDTO(foodDTO);
+        FoodOrderDetailOutputDTOs.add(FoodOrderDetailOutputDTO);
+      }
+
+      // Set danh sách FoodOrderDetailOutputDTO vào OrderDetailDTO
+      orderDetailDTO.setFoodList(FoodOrderDetailOutputDTOs);
       result.add(orderDetailDTO);
     }
     return result;
