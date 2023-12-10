@@ -1,2 +1,3 @@
-package com.fap.cinanhalam.entity;public class TicketDetailEntity {
+package com.fap.cinanhalam.entity;
+public class TicketDetailEntity {
 }
