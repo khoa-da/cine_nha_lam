@@ -15,4 +15,5 @@ public class UserDTO extends BaseDTO{
     private String imgUrl;
     private Boolean gender;
     private String dob;
+    private Long roleId;
 }

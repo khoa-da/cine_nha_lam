@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    UserEntity findOneById();
+    UserEntity findOneById(long id);
 
     List<UserEntity> findAllByStatusTrue();
 }

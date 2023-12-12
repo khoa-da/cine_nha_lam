@@ -43,21 +43,37 @@ public class UserService implements IGenericService<UserDTO> {
             result.add(userDTO);
         }
         return result;
+//        return null;
     }
 
     @Override
     public UserDTO save(UserDTO userDTO) {
-        return null;
+        UserEntity userEntity = new UserEntity();
+        if (userDTO.getId() != null) {
+            UserEntity oldEntity = userRepository.findOneById(userDTO.getId());
+            userEntity = (UserEntity) genericConverter.updateEntity(userDTO, oldEntity);
+        } else {
+            userEntity = (UserEntity) genericConverter.toEntity(userDTO, UserEntity.class);
+        }
+        userRepository.save(userEntity);
+        return (UserDTO) genericConverter.toDTO(userEntity, UserDTO.class);
+
     }
 
     @Override
     public void changeStatus(Long ids) {
-
+        UserEntity userEntity = userRepository.findOneById(ids);
+        if (userEntity.getStatus() == true) {
+            userEntity.setStatus(false);
+        } else {
+            userEntity.setStatus(true);
+        }
+        userRepository.save(userEntity);
     }
 
     @Override
     public int totalItem() {
-        return 0;
+        return (int) userRepository.count();
     }
 
     @Override
