@@ -59,6 +59,7 @@ public class FoodOrderDetailService implements IGenericService<FoodOrderDetailDT
   @Override
   public FoodOrderDetailDTO save(FoodOrderDetailDTO foodOrderDetailDTO) {
     FoodOrderDetailEntity foodOrderDetailEntity;
+    System.out.println(foodOrderDetailDTO.getFoodId());
     FoodEntity findFood = foodRepository.findOneById(foodOrderDetailDTO.getFoodId());
     double totalPrice = foodOrderDetailDTO.getQuantity() * findFood.getPrice();
 
