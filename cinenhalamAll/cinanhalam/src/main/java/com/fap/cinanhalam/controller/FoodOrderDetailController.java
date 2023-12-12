@@ -11,36 +11,40 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class FoodOrderDetailController {
 
-  @Autowired
-  private FoodOrderDetailService foodOrderDetailService;
 
-  @GetMapping("/food-order-detail")
-  public ListOutput showFoodOrderDetails() {
-    ListOutput result = new ListOutput();
-    result.setListResult(foodOrderDetailService.findAll());
-    return result;
-  }
+    @Autowired
+    private FoodOrderDetailService foodOrderDetailService;
 
-  @GetMapping("/staff/food-order-detail")
-  public ListOutput showActiveFoodOrderDetails() {
-    ListOutput result = new ListOutput();
-    result.setListResult(foodOrderDetailService.findAllWithStatusIsTrue());
-    return result;
-  }
+    @GetMapping("/food-order-detail")
+    public ListOutput showFoodOrderDetails() {
+        ListOutput result = new ListOutput();
+        result.setListResult(foodOrderDetailService.findAll());
+        return result;
+    }
 
-  @PostMapping("/staff/food-order-detail")
-  public FoodOrderDetailDTO createFoodOrderDetail(@RequestBody FoodOrderDetailDTO model) {
-    return foodOrderDetailService.save(model);
-  }
+    @GetMapping("/staff/food-order-detail")
+    public ListOutput showActiveFoodOrderDetails() {
+        ListOutput result = new ListOutput();
+        result.setListResult(foodOrderDetailService.findAllWithStatusIsTrue());
+        return result;
+    }
 
-  @PutMapping("/staff/food-order-detail/{id}")
-  public FoodOrderDetailDTO updateFoodOrderDetail(@RequestBody FoodOrderDetailDTO model, @PathVariable("id") long id) {
-    model.setId(id);
-    return foodOrderDetailService.save(model);
-  }
+    @PostMapping("/staff/food-order-detail")
+    public FoodOrderDetailDTO createFoodOrderDetail(@RequestBody FoodOrderDetailDTO model) {
+        return foodOrderDetailService.save(model);
+    }
 
-  @DeleteMapping("/staff/food-order-detail/{id}")
-  public void deleteFoodOrderDetail(@PathVariable("id") Long id) {
-    foodOrderDetailService.changeStatus(id);
-  }
+    @PutMapping("/staff/food-order-detail/{id}")
+    public FoodOrderDetailDTO updateFoodOrderDetail(@RequestBody FoodOrderDetailDTO model, @PathVariable("id") long id) {
+        model.setId(id);
+        return foodOrderDetailService.save(model);
+    }
+
+    @DeleteMapping("/staff/food-order-detail/{id}")
+    public void deleteFoodOrderDetail(@PathVariable("id") Long id) {
+        foodOrderDetailService.changeStatus(id);
+    }
 }
+
+
+

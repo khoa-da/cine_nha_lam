@@ -34,7 +34,7 @@ public class TicketDetailEntity extends BaseEntity{
   @JoinColumn(name = "ticket_id", unique = true)
   private TicketEntity ticket;
 
-  @ManyToOne
-  @JoinColumn(name = "order_detail_id")
-  private OrderDetailEntity orderDetail;
+    @ManyToOne
+    @JoinColumn(name = "order_detail_id")
+    private OrderDetailEntity orderDetail;
 }
