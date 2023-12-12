@@ -7,9 +7,11 @@ import com.fap.cinanhalam.dto.OrderDetailDTO;
 import com.fap.cinanhalam.entity.FoodEntity;
 import com.fap.cinanhalam.entity.FoodOrderDetailEntity;
 import com.fap.cinanhalam.entity.OrderDetailEntity;
+import com.fap.cinanhalam.entity.TicketDetailEntity;
 import com.fap.cinanhalam.repository.FoodOrderDetailRepository;
 import com.fap.cinanhalam.repository.FoodRepository;
 import com.fap.cinanhalam.repository.OrderDetailRepository;
+import com.fap.cinanhalam.repository.TicketDetailRepository;
 import com.fap.cinanhalam.service.IGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +30,9 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
   private FoodOrderDetailRepository foodOrderDetailRepository;
 
   @Autowired
+  private TicketDetailRepository ticketDetailRepository;
+
+  @Autowired
   private FoodRepository foodRepository;
 
   @Autowired
@@ -37,8 +42,22 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
   public List<OrderDetailDTO> findAll() {
     List<OrderDetailDTO> result = new ArrayList<>();
     List<OrderDetailEntity> entities = orderDetailRepository.findAll();
+    List<TicketDetailEntity> ticketDetailEntities = ticketDetailRepository.findAll();
+    List<FoodOrderDetailEntity> foodOrderDetailEntities = foodOrderDetailRepository.findAll();
+    double totalPrice = 0.0;
+
+    for(TicketDetailEntity ticketDetail: ticketDetailEntities){
+      TicketDetailEntity ticketDetail1 = ticketDetailRepository.findOneById(ticketDetail.getId());
+      totalPrice += ticketDetail1.getPrice();
+    }
+
+    for(FoodOrderDetailEntity foodOrderDetail: foodOrderDetailEntities){
+      FoodOrderDetailEntity foodOrderDetail1 = foodOrderDetailRepository.findOneById(foodOrderDetail.getId());
+      totalPrice += foodOrderDetail1.getPrice();
+    }
 
     for (OrderDetailEntity entity : entities) {
+      entity.setPrice(totalPrice);
       OrderDetailDTO orderDetailDTO = (OrderDetailDTO) genericConverter.toDTO(entity, OrderDetailDTO.class);
 
       // Thực hiện truy vấn để lấy danh sách FoodOrderDetailOutputDTO
@@ -66,8 +85,22 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
   public List<OrderDetailDTO> findAllWithStatusIsTrue() {
     List<OrderDetailDTO> result = new ArrayList<>();
     List<OrderDetailEntity> entities = orderDetailRepository.findAllByStatusTrue();
+    List<TicketDetailEntity> ticketDetailEntities = ticketDetailRepository.findAll();
+    List<FoodOrderDetailEntity> foodOrderDetailEntities = foodOrderDetailRepository.findAll();
+    double totalPrice = 0.0;
+
+    for(TicketDetailEntity ticketDetail: ticketDetailEntities){
+      TicketDetailEntity ticketDetail1 = ticketDetailRepository.findOneById(ticketDetail.getId());
+      totalPrice += ticketDetail1.getPrice();
+    }
+
+    for(FoodOrderDetailEntity foodOrderDetail: foodOrderDetailEntities){
+      FoodOrderDetailEntity foodOrderDetail1 = foodOrderDetailRepository.findOneById(foodOrderDetail.getId());
+      totalPrice += foodOrderDetail1.getPrice();
+    }
 
     for (OrderDetailEntity entity : entities) {
+      entity.setPrice(totalPrice);
       OrderDetailDTO orderDetailDTO = (OrderDetailDTO) genericConverter.toDTO(entity, OrderDetailDTO.class);
 
       // Thực hiện truy vấn để lấy danh sách FoodOrderDetailOutputDTO

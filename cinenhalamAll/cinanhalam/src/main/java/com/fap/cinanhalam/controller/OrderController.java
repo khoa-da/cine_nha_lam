@@ -21,6 +21,13 @@ public class OrderController {
     return result;
   }
 
+  @GetMapping(value = "staff/order")
+  public ListOutput showActiveOrder() {
+    ListOutput result = new ListOutput();
+    result.setListResult(orderService.findAllWithStatusIsTrue());
+    return result;
+  }
+
   @PostMapping(value = "/staff/order")
   public OrderDTO createOrder(@RequestBody OrderDTO model) {
     return orderService.save(model);

@@ -24,9 +24,5 @@ public class TicketDTO extends BaseDTO {
 
   private Long scheduleId;
 
-  private Long userId;
-
-  private Long orderDetailId;
-
   private Long seatId;
 }

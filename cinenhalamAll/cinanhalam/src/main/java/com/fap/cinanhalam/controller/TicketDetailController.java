@@ -14,25 +14,27 @@ public class TicketDetailController {
   @Autowired
   private TicketDetailService TicketDetailService;
 
-  @GetMapping(value = "/TicketDetail")
+  @GetMapping(value = "/ticket-detail")
   public ListOutput showTicketDetails() {
     ListOutput result = new ListOutput();
     result.setListResult(TicketDetailService.findAllWithStatusIsTrue());
     return result;
   }
 
-  @PostMapping(value = "/staff/TicketDetail")
+
+
+  @PostMapping(value = "/staff/ticket-detail")
   public TicketDetailDTO createTicketDetail(@RequestBody TicketDetailDTO model) {
     return TicketDetailService.save(model);
   }
 
-  @PutMapping(value = "/staff/TicketDetail/{id}")
+  @PutMapping(value = "/staff/ticket-detail/{id}")
   public TicketDetailDTO updateTicketDetail(@RequestBody TicketDetailDTO model, @PathVariable("id") long id) {
     model.setId(id);
     return TicketDetailService.save(model);
   }
 
-  @DeleteMapping(value = "/staff/TicketDetail/{id}")
+  @DeleteMapping(value = "/staff/ticket-detail/{id}")
   public void changeTicketDetailStatus(@PathVariable("id") Long id) {
     TicketDetailService.changeStatus(id);
   }

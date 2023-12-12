@@ -17,7 +17,8 @@ import lombok.ToString;
     private Long foodId;
     private Long orderDetailId;
     private int quantity;
-    private FoodDTO foodDTO;
+    private double price;
+    private FoodDTO foodList;
 
   }
 

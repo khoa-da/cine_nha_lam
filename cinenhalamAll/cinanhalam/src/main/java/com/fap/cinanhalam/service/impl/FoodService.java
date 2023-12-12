@@ -51,7 +51,7 @@ public class FoodService implements IGenericService<FoodDTO> {
   public FoodDTO save(FoodDTO foodDTO) {
     FoodEntity foodEntity = new FoodEntity();
     if (foodDTO.getId() != null) {
-      FoodEntity oldEntity = foodRepository.getReferenceById(foodDTO.getId());
+      FoodEntity oldEntity = foodRepository.findOneById(foodDTO.getId());
       foodEntity = (FoodEntity) genericConverter.updateEntity(foodDTO, oldEntity);
     } else {
       foodEntity = (FoodEntity) genericConverter.toEntity(foodDTO, FoodEntity.class);

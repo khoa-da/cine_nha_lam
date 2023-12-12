@@ -35,7 +35,7 @@ public class FoodOrderDetailService implements IGenericService<FoodOrderDetailDT
       FoodEntity existFood = foodRepository.findOneById(entity.getFood().getId());
       FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
       FoodOrderDetailDTO dto = (FoodOrderDetailDTO) genericConverter.toDTO(entity, FoodOrderDetailDTO.class);
-      dto.setFoodDTO(foodDTO);
+      dto.setFoodList(foodDTO);
       result.add(dto);
     }
     return result;
@@ -50,7 +50,7 @@ public class FoodOrderDetailService implements IGenericService<FoodOrderDetailDT
       FoodEntity existFood = foodRepository.findOneById(entity.getFood().getId());
       FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
       FoodOrderDetailDTO dto = (FoodOrderDetailDTO) genericConverter.toDTO(entity, FoodOrderDetailDTO.class);
-      dto.setFoodDTO(foodDTO);
+      dto.setFoodList(foodDTO);
       result.add(dto);
     }
     return result;
@@ -59,18 +59,23 @@ public class FoodOrderDetailService implements IGenericService<FoodOrderDetailDT
   @Override
   public FoodOrderDetailDTO save(FoodOrderDetailDTO foodOrderDetailDTO) {
     FoodOrderDetailEntity foodOrderDetailEntity;
-    FoodEntity existFood = foodRepository.findOneById(foodOrderDetailDTO.getFoodId());
-    FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
-    if (foodOrderDetailDTO.getId() != null) {
-      FoodOrderDetailEntity oldEntity = foodOrderDetailRepository.getReferenceById(foodOrderDetailDTO.getId());
+    FoodEntity findFood = foodRepository.findOneById(foodOrderDetailDTO.getFoodId());
+    double totalPrice = foodOrderDetailDTO.getQuantity() * findFood.getPrice();
+
+    FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(findFood, FoodDTO.class);
+    if (foodOrderDetailDTO.getId() != null ) {
+      FoodOrderDetailEntity oldEntity = foodOrderDetailRepository.findOneById(foodOrderDetailDTO.getId());
       foodOrderDetailEntity = (FoodOrderDetailEntity) genericConverter.updateEntity(foodOrderDetailDTO, oldEntity);
+      foodOrderDetailEntity.setFood(findFood);
+      foodOrderDetailEntity.setPrice(totalPrice);
     } else {
       foodOrderDetailEntity = (FoodOrderDetailEntity) genericConverter.toEntity(foodOrderDetailDTO, FoodOrderDetailEntity.class);
-      foodOrderDetailEntity.setFood(existFood);
+      foodOrderDetailEntity.setFood(findFood);
+      foodOrderDetailEntity.setPrice(totalPrice);
     }
     foodOrderDetailRepository.save(foodOrderDetailEntity);
     FoodOrderDetailDTO result = (FoodOrderDetailDTO) genericConverter.toDTO(foodOrderDetailEntity, FoodOrderDetailDTO.class);
-    result.setFoodDTO(foodDTO);
+    result.setFoodList(foodDTO);
     return result;
   }
 

@@ -15,6 +15,7 @@ import lombok.ToString;
 @Setter
 public class FoodOrderDetailOutputDTO extends BaseDTO{
   private int quantity;
+  private double price;
   private FoodDTO foodDTO;
   private Long orderDetailId;
 }

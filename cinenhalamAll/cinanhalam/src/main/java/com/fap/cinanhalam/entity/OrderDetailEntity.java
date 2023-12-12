@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +37,16 @@ public class OrderDetailEntity extends BaseEntity {
   @OneToMany(mappedBy = "orderDetail")
   private List<TicketDetailEntity> ticketDetailEntities = new ArrayList<>();
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "order_id", nullable = true)
-  private OrderEntity orderId;
-
   @OneToMany(mappedBy = "orderDetail")
   private List<FoodOrderDetailEntity> foodOrderDetails = new ArrayList<>();
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "order_id", nullable = true)
+  private OrderEntity order;
+
+  @PrePersist
+  public void preDetail() {
+    this.price = 0.0;
+  }
 }
 

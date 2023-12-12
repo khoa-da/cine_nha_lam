@@ -2,8 +2,11 @@ package com.fap.cinanhalam.service.impl;
 
 import com.fap.cinanhalam.converter.GenericConverter;
 import com.fap.cinanhalam.dto.OrderDTO;
+import com.fap.cinanhalam.entity.FoodOrderDetailEntity;
 import com.fap.cinanhalam.entity.OrderEntity;
+import com.fap.cinanhalam.repository.FoodOrderDetailRepository;
 import com.fap.cinanhalam.repository.OrderRepository;
+import com.fap.cinanhalam.repository.TicketDetailRepository;
 import com.fap.cinanhalam.service.IGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +20,12 @@ public class OrderService implements IGenericService<OrderDTO> {
 
   @Autowired
   private OrderRepository orderRepository;
+
+  @Autowired
+  private FoodOrderDetailRepository foodOrderDetailRepository;
+
+  @Autowired
+  private TicketDetailRepository ticketDetailRepository;
 
   @Autowired
   private GenericConverter genericConverter;
@@ -37,6 +46,7 @@ public class OrderService implements IGenericService<OrderDTO> {
   public List<OrderDTO> findAllWithStatusIsTrue() {
     List<OrderDTO> results = new ArrayList<>();
     List<OrderEntity> entities = orderRepository.findAllByStatusTrue();
+    List<FoodOrderDetailEntity> listFoodOrderDetailEntity = foodOrderDetailRepository.findAllByStatusTrue();
 
     for (OrderEntity item : entities) {
       OrderDTO newDTO = (OrderDTO) genericConverter.toDTO(item, OrderDTO.class);
@@ -49,7 +59,7 @@ public class OrderService implements IGenericService<OrderDTO> {
   public OrderDTO save(OrderDTO orderDTO) {
     OrderEntity orderEntity = new OrderEntity();
     if (orderDTO.getId() != null) {
-      OrderEntity oldEntity = orderRepository.getReferenceById(orderDTO.getId());
+      OrderEntity oldEntity = orderRepository.findOneById(orderDTO.getId());
       orderEntity = (OrderEntity) genericConverter.updateEntity(orderDTO, oldEntity);
     } else {
       orderEntity = (OrderEntity) genericConverter.toEntity(orderDTO, OrderEntity.class);

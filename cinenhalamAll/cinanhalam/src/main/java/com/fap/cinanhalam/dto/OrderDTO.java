@@ -9,9 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 public class OrderDTO extends BaseDTO{
-
     private Double totalPrice;
-    private int quantity;
     private List<OrderDetailDTO> orderDetails;
     private List<VoucherUsageDTO> voucherUsages;
     private Long userId;

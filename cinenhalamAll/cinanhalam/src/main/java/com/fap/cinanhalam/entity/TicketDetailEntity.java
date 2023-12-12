@@ -1,5 +1,6 @@
 package com.fap.cinanhalam.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -25,6 +26,10 @@ import lombok.ToString;
 @Entity
 @Table(name = "ticket_detail")
 public class TicketDetailEntity extends BaseEntity{
+
+  @Column(name = "price")
+  private double price;
+
   @OneToOne
   @JoinColumn(name = "ticket_id", unique = true)
   private TicketEntity ticket;

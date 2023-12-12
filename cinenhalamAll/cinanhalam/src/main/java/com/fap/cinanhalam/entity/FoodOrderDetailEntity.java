@@ -36,4 +36,7 @@ public class FoodOrderDetailEntity extends BaseEntity {
   @Column(name = "quantity", nullable = true)
   private int quantity;
 
+  @Column(name = "price", nullable = true)
+  private double price;
+
 }

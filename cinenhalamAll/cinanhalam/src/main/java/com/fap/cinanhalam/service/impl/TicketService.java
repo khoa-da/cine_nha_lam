@@ -50,7 +50,7 @@ public class TicketService implements IGenericService<TicketDTO> {
   public TicketDTO save(TicketDTO ticketDTO) {
     TicketEntity ticketEntity = new TicketEntity();
     if (ticketDTO.getId() != null) {
-      TicketEntity oldEntity = ticketRepository.getReferenceById(ticketDTO.getId());
+      TicketEntity oldEntity = ticketRepository.findOneById(ticketDTO.getId());
       ticketEntity = (TicketEntity) genericConverter.updateEntity(ticketDTO, oldEntity);
     } else {
       ticketEntity = (TicketEntity) genericConverter.toEntity(ticketDTO, TicketEntity.class);

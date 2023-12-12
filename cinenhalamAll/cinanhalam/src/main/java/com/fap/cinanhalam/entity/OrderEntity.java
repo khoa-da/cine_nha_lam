@@ -22,17 +22,19 @@ public class OrderEntity extends BaseEntity{
     @Column(name="total_price", nullable = false)
     private Double totalPrice;
 
-    @Column(name="quantity", nullable = false)
-    private int quantity;
-
-    @OneToMany(mappedBy = "orderId")
+    @OneToMany(mappedBy = "order")
     private List<OrderDetailEntity> orderDetails = new ArrayList<>();
 
     @OneToMany(mappedBy = "order")
     private List<VoucherUsageEntity> voucherUsages = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private UserEntity userId;
+
+    @PrePersist
+    public void preOrder() {
+        this.totalPrice = 0.0;
+    }
 
 }
