@@ -31,9 +31,6 @@ public class OrderDetailEntity extends BaseEntity {
   @Column(name = "price", nullable = false)
   private Double price;
 
-  @Column(name = "quantity", nullable = false)
-  private int quantity;
-
   @OneToMany(mappedBy = "orderDetail")
   private List<TicketDetailEntity> ticketDetailEntities = new ArrayList<>();
 

@@ -42,25 +42,8 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
   public List<OrderDetailDTO> findAll() {
     List<OrderDetailDTO> result = new ArrayList<>();
     List<OrderDetailEntity> entities = orderDetailRepository.findAll();
-    List<TicketDetailEntity> ticketDetailEntities = ticketDetailRepository.findAll();
-    List<FoodOrderDetailEntity> foodOrderDetailEntities = foodOrderDetailRepository.findAll();
-    double totalPrice = 0.0;
-
-    for(TicketDetailEntity ticketDetail: ticketDetailEntities){
-      TicketDetailEntity ticketDetail1 = ticketDetailRepository.findOneById(ticketDetail.getId());
-      totalPrice += ticketDetail1.getPrice();
-    }
-
-    for(FoodOrderDetailEntity foodOrderDetail: foodOrderDetailEntities){
-      FoodOrderDetailEntity foodOrderDetail1 = foodOrderDetailRepository.findOneById(foodOrderDetail.getId());
-      totalPrice += foodOrderDetail1.getPrice();
-    }
-
     for (OrderDetailEntity entity : entities) {
-      entity.setPrice(totalPrice);
       OrderDetailDTO orderDetailDTO = (OrderDetailDTO) genericConverter.toDTO(entity, OrderDetailDTO.class);
-
-      // Thực hiện truy vấn để lấy danh sách FoodOrderDetailOutputDTO
       List<FoodOrderDetailEntity> foodOrderDetails = foodOrderDetailRepository.findByOrderDetailId(entity.getId());
       List<FoodOrderDetailOutputDTO> FoodOrderDetailOutputDTOs = new ArrayList<>();
 
@@ -69,11 +52,10 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
         FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
 
         FoodOrderDetailOutputDTO FoodOrderDetailOutputDTO = (FoodOrderDetailOutputDTO) genericConverter.toDTO(foodOrderDetailEntity, FoodOrderDetailOutputDTO.class);
-        FoodOrderDetailOutputDTO.setFoodDTO(foodDTO);
+        FoodOrderDetailOutputDTO.setFoodName(foodDTO.getName());
         FoodOrderDetailOutputDTOs.add(FoodOrderDetailOutputDTO);
       }
 
-      // Set danh sách FoodOrderDetailOutputDTO vào OrderDetailDTO
       orderDetailDTO.setFoodList(FoodOrderDetailOutputDTOs);
       result.add(orderDetailDTO);
     }
@@ -85,25 +67,8 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
   public List<OrderDetailDTO> findAllWithStatusIsTrue() {
     List<OrderDetailDTO> result = new ArrayList<>();
     List<OrderDetailEntity> entities = orderDetailRepository.findAllByStatusTrue();
-    List<TicketDetailEntity> ticketDetailEntities = ticketDetailRepository.findAll();
-    List<FoodOrderDetailEntity> foodOrderDetailEntities = foodOrderDetailRepository.findAll();
-    double totalPrice = 0.0;
-
-    for(TicketDetailEntity ticketDetail: ticketDetailEntities){
-      TicketDetailEntity ticketDetail1 = ticketDetailRepository.findOneById(ticketDetail.getId());
-      totalPrice += ticketDetail1.getPrice();
-    }
-
-    for(FoodOrderDetailEntity foodOrderDetail: foodOrderDetailEntities){
-      FoodOrderDetailEntity foodOrderDetail1 = foodOrderDetailRepository.findOneById(foodOrderDetail.getId());
-      totalPrice += foodOrderDetail1.getPrice();
-    }
-
     for (OrderDetailEntity entity : entities) {
-      entity.setPrice(totalPrice);
       OrderDetailDTO orderDetailDTO = (OrderDetailDTO) genericConverter.toDTO(entity, OrderDetailDTO.class);
-
-      // Thực hiện truy vấn để lấy danh sách FoodOrderDetailOutputDTO
       List<FoodOrderDetailEntity> foodOrderDetails = foodOrderDetailRepository.findByOrderDetailId(entity.getId());
       List<FoodOrderDetailOutputDTO> FoodOrderDetailOutputDTOs = new ArrayList<>();
 
@@ -112,11 +77,10 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
         FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
 
         FoodOrderDetailOutputDTO FoodOrderDetailOutputDTO = (FoodOrderDetailOutputDTO) genericConverter.toDTO(foodOrderDetailEntity, FoodOrderDetailOutputDTO.class);
-        FoodOrderDetailOutputDTO.setFoodDTO(foodDTO);
+        FoodOrderDetailOutputDTO.setFoodName(foodDTO.getName());
         FoodOrderDetailOutputDTOs.add(FoodOrderDetailOutputDTO);
       }
 
-      // Set danh sách FoodOrderDetailOutputDTO vào OrderDetailDTO
       orderDetailDTO.setFoodList(FoodOrderDetailOutputDTOs);
       result.add(orderDetailDTO);
     }

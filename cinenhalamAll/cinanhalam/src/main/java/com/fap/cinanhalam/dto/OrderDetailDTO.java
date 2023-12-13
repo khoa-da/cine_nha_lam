@@ -10,7 +10,6 @@ import lombok.*;
 @Setter
 public class OrderDetailDTO extends BaseDTO{
     private Double price;
-    private int quantity;
     private List<FoodOrderDetailOutputDTO> foodList;
     private List<TicketDetailDTO> ticketList;
     private Long orderId;
