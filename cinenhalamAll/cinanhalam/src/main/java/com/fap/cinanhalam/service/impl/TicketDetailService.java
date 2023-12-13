@@ -2,8 +2,11 @@ package com.fap.cinanhalam.service.impl;
 
 import com.fap.cinanhalam.converter.GenericConverter;
 import com.fap.cinanhalam.dto.TicketDetailDTO;
+import com.fap.cinanhalam.entity.FoodOrderDetailEntity;
+import com.fap.cinanhalam.entity.OrderDetailEntity;
 import com.fap.cinanhalam.entity.TicketDetailEntity;
 import com.fap.cinanhalam.entity.TicketEntity;
+import com.fap.cinanhalam.repository.OrderDetailRepository;
 import com.fap.cinanhalam.repository.TicketDetailRepository;
 import com.fap.cinanhalam.repository.TicketRepository;
 import com.fap.cinanhalam.service.IGenericService;
@@ -22,6 +25,9 @@ public class TicketDetailService implements IGenericService<TicketDetailDTO> {
 
   @Autowired
   private TicketRepository ticketRepository;
+
+  @Autowired
+  private OrderDetailRepository orderDetailRepository;
 
   @Autowired
   private GenericConverter genericConverter;
@@ -54,6 +60,12 @@ public class TicketDetailService implements IGenericService<TicketDetailDTO> {
   public TicketDetailDTO save(TicketDetailDTO ticketDetailDTO) {
     TicketDetailEntity ticketDetailEntity = new TicketDetailEntity();
     TicketEntity findTicket = ticketRepository.findOneById(ticketDetailDTO.getTicketId());
+    List<TicketDetailEntity> ticketDetailEntities = ticketDetailRepository.findAllByOrderDetailId(ticketDetailDTO.getOrderDetailId());
+    OrderDetailEntity orderDetail = orderDetailRepository.findOneById(ticketDetailDTO.getOrderDetailId());
+
+    double totalPrice = 0.0;
+    double newPrice = findTicket.getPrice();
+
 
     if (ticketDetailDTO.getId() != null) {
       TicketDetailEntity oldEntity = ticketDetailRepository.findOneById(ticketDetailDTO.getId());
@@ -62,6 +74,15 @@ public class TicketDetailService implements IGenericService<TicketDetailDTO> {
     } else {
       ticketDetailEntity = (TicketDetailEntity) genericConverter.toEntity(ticketDetailDTO, TicketDetailEntity.class);
       ticketDetailEntity.setPrice(findTicket.getPrice());
+
+      if(ticketDetailEntities != null && !ticketDetailEntities.isEmpty()){
+        double oldPrice = ticketDetailRepository.getTotalPriceByOrderDetailId(ticketDetailDTO.getOrderDetailId());
+        totalPrice += oldPrice + newPrice ;
+      }else{
+        totalPrice += newPrice;
+      }
+      orderDetail.setPrice(totalPrice);
+      orderDetailRepository.save(orderDetail);
     }
     ticketDetailRepository.save(ticketDetailEntity);
     return (TicketDetailDTO) genericConverter.toDTO(ticketDetailEntity, TicketDetailDTO.class);

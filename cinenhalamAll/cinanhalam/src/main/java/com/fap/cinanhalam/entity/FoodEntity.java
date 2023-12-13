@@ -1,5 +1,6 @@
 package com.fap.cinanhalam.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -55,6 +56,7 @@ public class FoodEntity extends BaseEntity {
   @Column(name = "image")
   private String image;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "food")
   private List<FoodOrderDetailEntity> foodOrderDetails = new ArrayList<>();
 

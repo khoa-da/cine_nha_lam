@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity, Long> {
   List<OrderDetailEntity> findAllByStatusTrue();
   OrderDetailEntity findOneById(Long id);
+  List<OrderDetailEntity> findAllByOrderId(Long orderId);
 }

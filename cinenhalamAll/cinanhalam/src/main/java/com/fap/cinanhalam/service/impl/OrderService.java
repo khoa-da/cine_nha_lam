@@ -3,8 +3,10 @@ package com.fap.cinanhalam.service.impl;
 import com.fap.cinanhalam.converter.GenericConverter;
 import com.fap.cinanhalam.dto.OrderDTO;
 import com.fap.cinanhalam.entity.FoodOrderDetailEntity;
+import com.fap.cinanhalam.entity.OrderDetailEntity;
 import com.fap.cinanhalam.entity.OrderEntity;
 import com.fap.cinanhalam.repository.FoodOrderDetailRepository;
+import com.fap.cinanhalam.repository.OrderDetailRepository;
 import com.fap.cinanhalam.repository.OrderRepository;
 import com.fap.cinanhalam.repository.TicketDetailRepository;
 import com.fap.cinanhalam.service.IGenericService;
@@ -22,6 +24,9 @@ public class OrderService implements IGenericService<OrderDTO> {
   private OrderRepository orderRepository;
 
   @Autowired
+  private OrderDetailRepository orderDetailRepository;
+
+  @Autowired
   private FoodOrderDetailRepository foodOrderDetailRepository;
 
   @Autowired
@@ -36,6 +41,16 @@ public class OrderService implements IGenericService<OrderDTO> {
     List<OrderEntity> entities = orderRepository.findAll();
 
     for (OrderEntity entity : entities) {
+      double totalPrice = 0.0;
+      List<OrderDetailEntity> orderDetails = orderDetailRepository.findAllByOrderId(entity.getId());
+      for(OrderDetailEntity orderDetail: orderDetails){
+        totalPrice += orderDetail.getPrice();
+      }
+      //luu totalPrice vao Order
+      OrderEntity order = orderRepository.findOneById(entity.getId());
+      order.setTotalPrice(totalPrice);
+      orderRepository.save(order);
+
       OrderDTO orderDTO = (OrderDTO) genericConverter.toDTO(entity, OrderDTO.class);
       result.add(orderDTO);
     }
@@ -44,15 +59,24 @@ public class OrderService implements IGenericService<OrderDTO> {
 
   @Override
   public List<OrderDTO> findAllWithStatusIsTrue() {
-    List<OrderDTO> results = new ArrayList<>();
+    List<OrderDTO> result = new ArrayList<>();
     List<OrderEntity> entities = orderRepository.findAllByStatusTrue();
-    List<FoodOrderDetailEntity> listFoodOrderDetailEntity = foodOrderDetailRepository.findAllByStatusTrue();
 
-    for (OrderEntity item : entities) {
-      OrderDTO newDTO = (OrderDTO) genericConverter.toDTO(item, OrderDTO.class);
-      results.add(newDTO);
+    for (OrderEntity entity : entities) {
+      double totalPrice = 0.0;
+      List<OrderDetailEntity> orderDetails = orderDetailRepository.findAllByOrderId(entity.getId());
+      for(OrderDetailEntity orderDetail: orderDetails){
+        totalPrice += orderDetail.getPrice();
+      }
+      //lưu totalPrice vào Order
+      OrderEntity order = orderRepository.findOneById(entity.getId());
+      order.setTotalPrice(totalPrice);
+      orderRepository.save(order);
+
+      OrderDTO orderDTO = (OrderDTO) genericConverter.toDTO(entity, OrderDTO.class);
+      result.add(orderDTO);
     }
-    return results;
+    return result;
   }
 
   @Override

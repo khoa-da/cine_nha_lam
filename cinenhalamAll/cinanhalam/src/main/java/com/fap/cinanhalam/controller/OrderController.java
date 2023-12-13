@@ -24,7 +24,7 @@ public class OrderController {
   @GetMapping(value = "staff/order")
   public ListOutput showActiveOrder() {
     ListOutput result = new ListOutput();
-    result.setListResult(orderService.findAllWithStatusIsTrue());
+    result.setListResult(orderService.findAll());
     return result;
   }
 
