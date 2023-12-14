@@ -29,7 +29,7 @@ import lombok.*;
 public class OrderDetailEntity extends BaseEntity {
 
   @Column(name = "price", nullable = false)
-  private Double price;
+  private Double totalPrice;
 
   @OneToMany(mappedBy = "orderDetail")
   private List<TicketDetailEntity> ticketDetailEntities = new ArrayList<>();
@@ -43,7 +43,7 @@ public class OrderDetailEntity extends BaseEntity {
 
   @PrePersist
   public void preDetail() {
-    this.price = 0.0;
+    this.totalPrice = 0.0;
   }
 }
 

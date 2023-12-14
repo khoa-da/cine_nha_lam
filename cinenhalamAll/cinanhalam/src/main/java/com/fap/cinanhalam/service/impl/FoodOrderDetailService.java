@@ -65,35 +65,48 @@ public class FoodOrderDetailService implements IGenericService<FoodOrderDetailDT
   @Override
   public FoodOrderDetailDTO save(FoodOrderDetailDTO foodOrderDetailDTO) {
     FoodOrderDetailEntity foodOrderDetailEntity;
-    System.out.println(foodOrderDetailDTO.getFoodId());
-    FoodEntity findFood = foodRepository.findOneById(foodOrderDetailDTO.getFoodId());
-    OrderDetailEntity orderDetail = orderDetailRepository.findOneById(foodOrderDetailDTO.getOrderDetailId());
-
-    List<FoodOrderDetailEntity> foodOrderDetails = foodOrderDetailRepository.findAllByOrderDetailId(foodOrderDetailDTO.getOrderDetailId());
+    OrderDetailEntity orderDetail;
+    FoodEntity food;
 
     double totalPrice = 0.0;
-    double newPrice = foodOrderDetailDTO.getQuantity() * findFood.getPrice();
-
-
+    double newPrice = 0.0;
+//vùng update
     if (foodOrderDetailDTO.getId() != null ) {
       FoodOrderDetailEntity oldEntity = foodOrderDetailRepository.findOneById(foodOrderDetailDTO.getId());
-      oldEntity.setPrice(oldEntity.getPrice());
+      orderDetail = orderDetailRepository.findOneById(oldEntity.getOrderDetail().getId());
+      food = foodRepository.findOneById(oldEntity.getFood().getId());
+//khu add sẳn vào DTO để giảm thiểu chuỗi JSON trước khi update
+      foodOrderDetailDTO.setPrice(food.getPrice());
+      foodOrderDetailDTO.setOrderDetailId(oldEntity.getOrderDetail().getId());
+      foodOrderDetailDTO.setFoodId(oldEntity.getFood().getId());
+//khu add TotalPrice vào Order Detail
+      newPrice = foodOrderDetailDTO.getQuantity() * food.getPrice();
+      if(orderDetail != null){
+        double existPrice = oldEntity.getPrice() * oldEntity.getQuantity();
+        double changePrice = orderDetail.getTotalPrice() - existPrice; //oldTotalPrice - existPrice
+        totalPrice += (changePrice + newPrice) ;
+      }
+      orderDetail.setTotalPrice(totalPrice);
+      orderDetailRepository.save(orderDetail);
+      
       foodOrderDetailEntity = (FoodOrderDetailEntity) genericConverter.updateEntity(foodOrderDetailDTO, oldEntity);
-
+//vùng add
     } else {
+      orderDetail = orderDetailRepository.findOneById(foodOrderDetailDTO.getOrderDetailId());
+      food = foodRepository.findOneById(foodOrderDetailDTO.getFoodId());
       foodOrderDetailEntity = (FoodOrderDetailEntity) genericConverter.toEntity(foodOrderDetailDTO, FoodOrderDetailEntity.class);
-      foodOrderDetailEntity.setFood(findFood);
-      foodOrderDetailEntity.setPrice(findFood.getPrice());
-
-      if(foodOrderDetails != null && !foodOrderDetails.isEmpty()){
-        double oldPrice = foodOrderDetailRepository.getTotalPriceByOrderDetailId(foodOrderDetailDTO.getOrderDetailId());
-        totalPrice += oldPrice + newPrice ;
+      foodOrderDetailEntity.setFood(food);
+      foodOrderDetailEntity.setPrice(food.getPrice());
+//khu add TotalPrice vào Order Detail
+      newPrice = foodOrderDetailDTO.getQuantity() * food.getPrice();
+      if(orderDetail != null){
+        double oldTotalPrice = orderDetail.getTotalPrice();
+        totalPrice += oldTotalPrice + newPrice ;
       }else{
         totalPrice += newPrice;
       }
-      orderDetail.setPrice(totalPrice);
+      orderDetail.setTotalPrice(totalPrice);
       orderDetailRepository.save(orderDetail);
-
     }
     foodOrderDetailRepository.save(foodOrderDetailEntity);
     FoodOrderDetailDTO result = (FoodOrderDetailDTO) genericConverter.toDTO(foodOrderDetailEntity, FoodOrderDetailDTO.class);
