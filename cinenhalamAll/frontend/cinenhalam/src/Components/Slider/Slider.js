@@ -1,20 +1,27 @@
 import React from "react";
+import "./Slider.scss";
 
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Autoplay,
+} from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import "./Slider.scss";
 
 import asset from "../../Assets";
+
 function Slider() {
   return (
     <Swiper
       // install Swiper modules
-      modules={[Navigation, Pagination, Scrollbar, A11y]}
+      modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
       spaceBetween={50}
       slidesPerView={1}
       navigation
@@ -22,6 +29,8 @@ function Slider() {
       scrollbar={{ draggable: true }}
       onSwiper={(swiper) => console.log(swiper)}
       onSlideChange={() => console.log("slide change")}
+      autoplay={{ delay: 5000, disableOnInteraction: false }}
+      loop
     >
       <SwiperSlide>
         <img src={asset.slider1} alt="slider1" />
