@@ -38,10 +38,7 @@ public class FoodOrderDetailService implements IGenericService<FoodOrderDetailDT
     List<FoodOrderDetailDTO> result = new ArrayList<>();
     List<FoodOrderDetailEntity> entities = foodOrderDetailRepository.findAll();
     for (FoodOrderDetailEntity entity : entities) {
-      FoodEntity existFood = foodRepository.findOneById(entity.getFood().getId());
-      FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
       FoodOrderDetailDTO dto = (FoodOrderDetailDTO) genericConverter.toDTO(entity, FoodOrderDetailDTO.class);
-//      dto.setFoodList(foodDTO);
       result.add(dto);
     }
     return result;
@@ -53,10 +50,7 @@ public class FoodOrderDetailService implements IGenericService<FoodOrderDetailDT
     List<FoodOrderDetailEntity> entities = foodOrderDetailRepository.findAllByStatusTrue();
 
     for (FoodOrderDetailEntity entity : entities) {
-      FoodEntity existFood = foodRepository.findOneById(entity.getFood().getId());
-      FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
       FoodOrderDetailDTO dto = (FoodOrderDetailDTO) genericConverter.toDTO(entity, FoodOrderDetailDTO.class);
-//      dto.setFoodList(foodDTO);
       result.add(dto);
     }
     return result;
@@ -133,5 +127,30 @@ public class FoodOrderDetailService implements IGenericService<FoodOrderDetailDT
   public List<FoodOrderDetailDTO> findAll(Pageable pageable) {
     // Implement this method based on your requirements
     return null;
+  }
+
+  public FoodOrderDetailDTO findById(Long id) {
+    FoodOrderDetailEntity entity = foodOrderDetailRepository.findOneById(id);
+    FoodOrderDetailDTO dto = (FoodOrderDetailDTO) genericConverter.toDTO(entity, FoodOrderDetailDTO.class);
+    return dto;
+  }
+
+  public void deleteById(Long id){
+    FoodOrderDetailEntity foodOrderDetail = foodOrderDetailRepository.findOneById(id);
+    OrderDetailEntity orderDetail = orderDetailRepository.findOneById(foodOrderDetail.getOrderDetail().getId());
+    double totalPrice = 0.0;
+    if(foodOrderDetail.getId() != null){
+
+      //update lại price bên order detail
+      if(orderDetail != null){
+        double existPrice = foodOrderDetail.getPrice() * foodOrderDetail.getQuantity();
+        double changePrice = orderDetail.getTotalPrice() - existPrice; //oldTotalPrice - existPrice
+        totalPrice += changePrice;
+      }
+      orderDetail.setTotalPrice(totalPrice);
+      orderDetailRepository.save(orderDetail);
+
+      foodOrderDetailRepository.deleteById(id);
+    }
   }
 }

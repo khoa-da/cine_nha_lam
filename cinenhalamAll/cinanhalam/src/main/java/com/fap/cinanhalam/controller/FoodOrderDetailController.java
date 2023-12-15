@@ -29,6 +29,11 @@ public class FoodOrderDetailController {
         return result;
     }
 
+    @GetMapping("/staff/food-order-detail/{id}")
+    public FoodOrderDetailDTO showFoodOrderDetailById(@PathVariable("id") Long id) {
+        return foodOrderDetailService.findById(id);
+    }
+
     @PostMapping("/staff/food-order-detail")
     public FoodOrderDetailDTO createFoodOrderDetail(@RequestBody FoodOrderDetailDTO model) {
         return foodOrderDetailService.save(model);
@@ -43,6 +48,11 @@ public class FoodOrderDetailController {
     @DeleteMapping("/staff/food-order-detail/{id}")
     public void deleteFoodOrderDetail(@PathVariable("id") Long id) {
         foodOrderDetailService.changeStatus(id);
+    }
+
+    @DeleteMapping("/staff/food-order-detail/delete/{id}")
+    public void deleteFoodOrderDetailById(@PathVariable("id") Long id) {
+        foodOrderDetailService.deleteById(id);
     }
 }
 
