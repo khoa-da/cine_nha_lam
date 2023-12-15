@@ -1,32 +1,29 @@
-import React from 'react';
+import React from "react";
 
 function FilmInfo({ film }) {
   return (
     <div className="film-info">
       <h2 className="title">{film.title}</h2>
-      
+
       <div className="poster">
-        <img src={film.posterUrl} />  
+        <img src={film.posterUrl} />
       </div>
 
-      <p className="description">
-        {film.description}
-      </p>
+      <p className="description">{film.description}</p>
 
       <div className="additional-details">
         <div>
-          <b>Release Date:</b> {film.releaseDate}  
+          <b>Release Date:</b> {film.releaseDate}
         </div>
 
         <div>
-          <b>Duration:</b> {film.duration} mins  
-        </div>  
+          <b>Duration:</b> {film.duration} mins
+        </div>
 
         <div>
-          <b>Genres:</b> {film.genres.join(', ')} 
+          <b>Genres:</b> {film.genres.join(", ")}
         </div>
       </div>
-
     </div>
   );
 }
