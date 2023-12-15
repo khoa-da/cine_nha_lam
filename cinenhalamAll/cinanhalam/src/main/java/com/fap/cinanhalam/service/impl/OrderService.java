@@ -44,7 +44,7 @@ public class OrderService implements IGenericService<OrderDTO> {
       double totalPrice = 0.0;
       List<OrderDetailEntity> orderDetails = orderDetailRepository.findAllByOrderId(entity.getId());
       for(OrderDetailEntity orderDetail: orderDetails){
-        totalPrice += orderDetail.getPrice();
+        totalPrice += orderDetail.getTotalPrice();
       }
       //luu totalPrice vao Order
       OrderEntity order = orderRepository.findOneById(entity.getId());
@@ -66,7 +66,7 @@ public class OrderService implements IGenericService<OrderDTO> {
       double totalPrice = 0.0;
       List<OrderDetailEntity> orderDetails = orderDetailRepository.findAllByOrderId(entity.getId());
       for(OrderDetailEntity orderDetail: orderDetails){
-        totalPrice += orderDetail.getPrice();
+        totalPrice += orderDetail.getTotalPrice();
       }
       //lưu totalPrice vào Order
       OrderEntity order = orderRepository.findOneById(entity.getId());

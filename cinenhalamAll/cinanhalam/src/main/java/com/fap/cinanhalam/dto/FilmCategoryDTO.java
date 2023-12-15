@@ -10,4 +10,6 @@ import lombok.*;
 public class FilmCategoryDTO extends BaseDTO{
     private Long filmId;
     private Long categoryId;
+    private String filmName;
+    private String categoryName;
 }

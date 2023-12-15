@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import Register from "./Pages/Register/Register";
-import Login from "./Pages/Login/Login";
+// import Register from "./Pages/Register/Register";
+// import Login from "./Pages/Login/Login";
 import Navbar from "./Parts/Navbar/Navbar";
 import FilmInfo from "./Components/FilmInfo/FilmInfo";
 import NotFound from "./Components/NotFound/NotFound";
@@ -13,8 +13,8 @@ function App() {
         <Route path="/slider" element={<Slider />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/filmInfo" element={<FilmInfo />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        {/* <Route path="/login" element={<Login />} /> */}
+        {/* <Route path="/register" element={<Register />} /> */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

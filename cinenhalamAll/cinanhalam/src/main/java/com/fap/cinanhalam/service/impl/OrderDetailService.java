@@ -122,4 +122,27 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
     // Implement logic to fetch data with pagination if needed
     return null;
   }
+
+  public OrderDetailDTO findById(Long id) {
+    OrderDetailEntity entity = orderDetailRepository.findOneById(id);
+
+    OrderDetailDTO orderDetailDTO = (OrderDetailDTO) genericConverter.toDTO(entity, OrderDetailDTO.class);
+    List<FoodOrderDetailEntity> foodOrderDetails = foodOrderDetailRepository.findByOrderDetailId(entity.getId());
+    List<FoodOrderDetailOutputDTO> foodOrderDetailOutputDTOs = new ArrayList<>();
+
+    for (FoodOrderDetailEntity foodOrderDetailEntity : foodOrderDetails) {
+      FoodEntity existFood = foodRepository.findOneById(foodOrderDetailEntity.getFood().getId());
+
+      if (existFood != null) {
+        FoodDTO foodDTO = (FoodDTO) genericConverter.toDTO(existFood, FoodDTO.class);
+
+        FoodOrderDetailOutputDTO foodOrderDetailOutputDTO = (FoodOrderDetailOutputDTO) genericConverter.toDTO(foodOrderDetailEntity, FoodOrderDetailOutputDTO.class);
+        foodOrderDetailOutputDTO.setFoodName(foodDTO.getName());
+        foodOrderDetailOutputDTOs.add(foodOrderDetailOutputDTO);
+      }
+    }
+
+    orderDetailDTO.setFoodList(foodOrderDetailOutputDTOs);
+    return orderDetailDTO;
+  }
 }

@@ -1,6 +1,9 @@
 import React from "react";
 
 function FilmInfo({ film }) {
+  // Destructure properties from the film object
+  const { name, releaseDate, director, actor, description, rating } = film;
+
   return (
     <div className="film-info">
       <h2 className="title">{film.title}</h2>

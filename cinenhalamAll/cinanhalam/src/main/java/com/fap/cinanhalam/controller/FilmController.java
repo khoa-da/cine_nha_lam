@@ -2,9 +2,12 @@ package com.fap.cinanhalam.controller;
 
 import com.fap.cinanhalam.dto.FilmDTO;
 import com.fap.cinanhalam.output.ListOutput;
+import com.fap.cinanhalam.service.impl.FilmCategoryService;
 import com.fap.cinanhalam.service.impl.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -13,6 +16,9 @@ public class FilmController {
 
     @Autowired
     FilmService filmService;
+
+    @Autowired
+    FilmCategoryService filmCategoryService;
 
     @GetMapping(value="film")
     public ListOutput showFilms() {
@@ -43,5 +49,24 @@ public class FilmController {
     public void changeStatus(@RequestBody @PathVariable("id") Long id){
         filmService.changeStatus(id);
     }
+
+
+    @GetMapping(value = "customer/film/{filmId}")
+    public ListOutput showOneFilmForCustomer(@PathVariable Long filmId) {
+        ListOutput result = new ListOutput();
+        List<FilmDTO> films = filmService.findOneWithStatusIsTrue(filmId);
+        result.setListResult(films);
+        return result;
+    }
+
+    @GetMapping(value = "customer/film/category/{categoryName}")
+    public ListOutput findAllByCategoryNamesByFilmId(@PathVariable String categoryName) {
+        ListOutput result = new ListOutput();
+        String categoryNameWithoutSpace = categoryName.replaceAll("\\s", "");
+        List<FilmDTO> films = filmCategoryService.findAllByCategoryName(categoryNameWithoutSpace);
+        result.setListResult(films);
+        return result;
+    }
+
 
 }

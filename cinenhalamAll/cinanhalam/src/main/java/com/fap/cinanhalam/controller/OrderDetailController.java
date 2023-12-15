@@ -21,12 +21,18 @@ public class OrderDetailController {
     return result;
   }
 
+  @GetMapping(value = "/order-detail/{id}")
+  public OrderDetailDTO showOrderDetailById(@PathVariable("id") Long id) {
+    return orderDetailService.findById(id);
+  }
+
   @GetMapping(value = "/staff/order-detail")
   public ListOutput showOrderDetailsForStaff() {
     ListOutput result = new ListOutput();
     result.setListResult(orderDetailService.findAll());
     return result;
   }
+
 
   @PostMapping(value = "/staff/order-detail")
   public OrderDetailDTO createOrderDetail(@RequestBody OrderDetailDTO model) {

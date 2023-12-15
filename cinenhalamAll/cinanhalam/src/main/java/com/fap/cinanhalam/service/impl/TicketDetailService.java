@@ -59,30 +59,44 @@ public class TicketDetailService implements IGenericService<TicketDetailDTO> {
   @Override
   public TicketDetailDTO save(TicketDetailDTO ticketDetailDTO) {
     TicketDetailEntity ticketDetailEntity = new TicketDetailEntity();
-    TicketEntity findTicket = ticketRepository.findOneById(ticketDetailDTO.getTicketId());
-    List<TicketDetailEntity> ticketDetailEntities = ticketDetailRepository.findAllByOrderDetailId(ticketDetailDTO.getOrderDetailId());
-    OrderDetailEntity orderDetail = orderDetailRepository.findOneById(ticketDetailDTO.getOrderDetailId());
+    TicketEntity findTicket;
+    OrderDetailEntity orderDetail;
 
     double totalPrice = 0.0;
-    double newPrice = findTicket.getPrice();
-
+    double newPrice = 0.0;
 
     if (ticketDetailDTO.getId() != null) {
       TicketDetailEntity oldEntity = ticketDetailRepository.findOneById(ticketDetailDTO.getId());
+      orderDetail = orderDetailRepository.findOneById(oldEntity.getOrderDetail().getId());
+      findTicket = ticketRepository.findOneById(oldEntity.getTicket().getId());
+      if(orderDetail != null){
+        double beforePrice = oldEntity.getPrice();
+        double changePrice = orderDetail.getTotalPrice() - beforePrice; //gia cũ - gia đã tồn tại
+        totalPrice += (changePrice + newPrice) ;
+      }
+      orderDetail.setTotalPrice(totalPrice);
+      orderDetailRepository.save(orderDetail);
+
+      ticketDetailDTO.setPrice(findTicket.getPrice());
       ticketDetailEntity = (TicketDetailEntity) genericConverter.updateEntity(ticketDetailDTO, oldEntity);
-      ticketDetailEntity.setPrice(findTicket.getPrice());
+
     } else {
+      findTicket = ticketRepository.findOneById(ticketDetailDTO.getTicketId());
+      orderDetail = orderDetailRepository.findOneById(ticketDetailDTO.getOrderDetailId());
+
+      newPrice = findTicket.getPrice();
       ticketDetailEntity = (TicketDetailEntity) genericConverter.toEntity(ticketDetailDTO, TicketDetailEntity.class);
       ticketDetailEntity.setPrice(findTicket.getPrice());
 
-      if(ticketDetailEntities != null && !ticketDetailEntities.isEmpty()){
-        double oldPrice = ticketDetailRepository.getTotalPriceByOrderDetailId(ticketDetailDTO.getOrderDetailId());
+      if(orderDetail != null){
+        double oldPrice = orderDetail.getTotalPrice();
         totalPrice += oldPrice + newPrice ;
       }else{
         totalPrice += newPrice;
       }
-      orderDetail.setPrice(totalPrice);
+      orderDetail.setTotalPrice(totalPrice);
       orderDetailRepository.save(orderDetail);
+
     }
     ticketDetailRepository.save(ticketDetailEntity);
     return (TicketDetailDTO) genericConverter.toDTO(ticketDetailEntity, TicketDetailDTO.class);

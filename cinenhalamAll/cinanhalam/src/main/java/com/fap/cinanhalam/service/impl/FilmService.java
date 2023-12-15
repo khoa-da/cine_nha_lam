@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Service
 public class FilmService implements IGenericService<FilmDTO> {
 
@@ -54,6 +57,8 @@ public class FilmService implements IGenericService<FilmDTO> {
             FilmEntity oldEntity = filmRepository.findOneById(filmDTO.getId());
             filmEntity = (FilmEntity) genericConverter.updateEntity(filmDTO, oldEntity);
         } else {
+            String convertId = getTrailerVideoId(filmDTO.getTrailerUrl());
+            filmDTO.setTrailerUrl(convertId);
             filmEntity = (FilmEntity) genericConverter.toEntity(filmDTO, FilmEntity.class);
         }
         filmRepository.save(filmEntity);
@@ -78,6 +83,28 @@ public class FilmService implements IGenericService<FilmDTO> {
 
     @Override
     public List<FilmDTO> findAll(Pageable pageable) {
+        return null;
+    }
+
+    // In ra thể loại của bộ phim đó
+    public List<FilmDTO> findOneWithStatusIsTrue(Long id) {
+        List<FilmDTO> result = new ArrayList<>();
+        FilmEntity entity = filmRepository.findOneByIdAndStatusTrue(id);
+        FilmDTO filmDTO = (FilmDTO) genericConverter.toDTO(entity, FilmDTO.class);
+        result.add(filmDTO);
+        return result;
+    }
+
+
+    public String getTrailerVideoId(String trailerUrl) {
+        if (trailerUrl != null && !trailerUrl.isEmpty()) {
+            String pattern = "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed\\?video_id=|youtu.be%2F|\\/v%2F|watch\\?v=|\\/e\\/|v\\/|watch\\?v=|youtu.be\\/|embed\\/|watch\\?feature=player_embedded&v=|embed\\?video_id=|youtu.be%2F|\\/v%2F)([^\"&?\\/\\s]{11})";
+            Pattern compiledPattern = Pattern.compile(pattern);
+            Matcher matcher = compiledPattern.matcher(trailerUrl);
+            if (matcher.find()) {
+                return matcher.group();
+            }
+        }
         return null;
     }
 }

@@ -26,9 +26,6 @@ public class CategoryEntity extends BaseEntity{
     @Column(name = "name",unique = true)
     private String name;
 
-    @Column(name = "description", nullable = false)
-    private String description;
-
     @OneToMany(mappedBy = "category")
     private List<FilmCategoryEntity> filmCategories = new ArrayList<>();
 }
