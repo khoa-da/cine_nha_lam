@@ -32,6 +32,15 @@ function FilmRelated() {
     setPageNumber(selected);
   };
 
+    // Tự động Chuyển trang
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        setPageNumber((prevPageNumber) => (prevPageNumber + 1) % pageCount);
+      }, 3000);
+  
+      return () => clearInterval(intervalId);
+    }, [pageNumber, pageCount]);
+
   const displayFilms = films
     .slice(pageNumber * filmsPerPage, (pageNumber + 1) * filmsPerPage)
     .map((film) => (

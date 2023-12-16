@@ -1,32 +1,46 @@
-import React from "react";
+import React from 'react';
+import FilmCategories from '../FilmCategories/FilmCategories';
+import './FilmInfo.scss';
 
 function FilmInfo({ film }) {
   // Destructure properties from the film object
-  const { name, releaseDate, director, actor, description, rating } = film;
+  const { title, name, releaseDate, duration, director, actor, description, rating } = film;
 
   return (
     <div className="film-info">
-      <h2 className="title">{film.title}</h2>
+      <h2 className="title">{title}</h2>
 
-      <div className="poster">
-        <img src={film.posterUrl} />
+      <div className="name">
+        <h3>{name}</h3>
       </div>
-
-      <p className="description">{film.description}</p>
 
       <div className="additional-details">
         <div>
-          <b>Release Date:</b> {film.releaseDate}
+          <b>Release Date:</b> {releaseDate}
+        </div>
+
+        <FilmCategories filmId={film.filmId} />
+        
+        <div>
+          <b>Thời lượng:</b> {duration} mins
         </div>
 
         <div>
-          <b>Duration:</b> {film.duration} mins
+          <b>Đạo diễn:</b> {director}
         </div>
 
         <div>
-          <b>Genres:</b> {film.genres.join(", ")}
+          <b>Diễn viên:</b> {actor}
         </div>
       </div>
+
+      <p className="description">
+        {description}
+      </p>
+
+      <p>
+        <b>Đánh giá:</b> {rating}
+      </p>
     </div>
   );
 }

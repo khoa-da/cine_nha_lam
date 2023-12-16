@@ -1,5 +1,8 @@
 import React from "react";
 import "./Slider.scss";
+import { useState } from "react";
+import { useEffect } from "react";
+import SliderAPI from "../../Api/SliderAPI";
 
 import {
   Navigation,
@@ -18,6 +21,33 @@ import "swiper/css/scrollbar";
 import asset from "../../Assets";
 
 function Slider() {
+  const [sliderList, setSliderList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await SliderAPI.getAll();
+        console.log(response.listResult);
+        setSliderList(response.listResult);
+      } catch (error) {
+        console.error("Error fetching slider data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Nếu sliderList rỗng, thêm một slider mặc định vào
+  useEffect(() => {
+    if (sliderList.length === 0) {
+      setSliderList([
+        {
+          sliderImageURL: asset.slider3,
+        },
+      ]);
+    }
+  }, [sliderList]);
+
   return (
     <Swiper
       // install Swiper modules
@@ -29,14 +59,11 @@ function Slider() {
       scrollbar={{ draggable: true }}
       onSwiper={(swiper) => console.log(swiper)}
       onSlideChange={() => console.log("slide change")}
-      autoplay={{ delay: 5000, disableOnInteraction: false }}
+      autoplay={{ delay: 3000, disableOnInteraction: false }}
       loop
     >
-      <SwiperSlide>
+      {/* <SwiperSlide>
         <img src={asset.slider1} alt="slider1" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={asset.slider2} alt="slider2" />
       </SwiperSlide>
       <SwiperSlide>
         <img src={asset.slider3} alt="slider3" />
@@ -46,13 +73,13 @@ function Slider() {
       </SwiperSlide>
       <SwiperSlide>
         <img src={asset.slider5} alt="slider5" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={asset.slider6} alt="slider6" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={asset.slider7} alt="slider7" />
-      </SwiperSlide>
+      </SwiperSlide> */}
+
+      {sliderList.map((slider, index) => (
+        <SwiperSlide key={index}>
+          <img src={slider.sliderImageURL} alt={"slider${index + 1}"} />
+        </SwiperSlide>
+      ))}
     </Swiper>
   );
 }

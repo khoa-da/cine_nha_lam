@@ -1,6 +1,7 @@
 const asset = {
   logo: require("./Logo.jpg"),
   logoxoaphong: require("./logoxoaphong.png"),
+  newlogo: require("./newLogo.jpg"),
   slider1: require("./wallpaperflare.com_wallpaper (3).jpg"),
   slider2: require("./wallpaperflare.com_wallpaper (4).jpg"),
   slider3: require("./wallpaperflare.com_wallpaper (5).jpg"),
