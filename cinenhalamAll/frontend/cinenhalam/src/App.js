@@ -7,10 +7,12 @@ import NotFound from "./Components/NotFound/NotFound";
 import HomePage from "./Pages/HomePage/HomePage";
 import Slider from "./Components/Slider/Slider";
 import FilmDetail from "./Pages/FilmDetail/FilmDetail";
+import Footer from "./Parts/Footer/Footer";
 function App() {
   return (
     <div className="App">
       <Routes>
+        <Route path="/footer" element={<Footer />} />
         <Route path="/slider" element={<Slider />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/filmInfo" element={<FilmInfo />} />

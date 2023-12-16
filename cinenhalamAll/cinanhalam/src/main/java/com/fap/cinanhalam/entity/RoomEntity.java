@@ -26,4 +26,9 @@ public class RoomEntity extends BaseEntity{
 
     @Column(name = "total_seats")
     private Integer totalSeats;
+
+
+    @ManyToOne
+    @JoinColumn(name = "cinema_id")
+    private CinemaEntity cinema;
 }

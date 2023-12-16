@@ -1,0 +1,41 @@
+.wrapper {
+  width: 100%;
+  background-color: #40073d;
+  min-height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 150px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+
+  p {
+    color: white;
+    font-weight: 700;
+    overflow-y: hidden;
+  }
+
+  a {
+    color: white;
+    font-weight: 500;
+    text-decoration: none; /* Loại bỏ gạch chân */
+    transition: color 0.3s ease; /* Thêm hiệu ứng transition màu sắc trong 0.3s */
+  }
+
+  a:hover {
+    color: #ffcc00;
+  }
+}

@@ -47,4 +47,7 @@ public class CinemaEntity extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "province_id", nullable = false)
     private ProvinceEntity province;
+
+    @OneToMany
+    private List<RoomEntity> roomEntities = new ArrayList<>();
 }

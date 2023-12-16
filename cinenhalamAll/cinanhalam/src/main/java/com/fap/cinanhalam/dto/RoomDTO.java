@@ -10,4 +10,5 @@ import lombok.*;
 public class RoomDTO extends BaseDTO{
     private String roomNumber;
     private Integer totalSeats;
+    private Long cinemaId;
 }

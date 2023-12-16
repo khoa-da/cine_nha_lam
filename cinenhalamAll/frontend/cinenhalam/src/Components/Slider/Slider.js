@@ -28,7 +28,21 @@ function Slider() {
       try {
         const response = await SliderAPI.getAll();
         console.log(response.listResult);
-        setSliderList(response.listResult);
+
+        const updatedSliderList = [
+          {
+            sliderImageURL: asset.slider1,
+          },
+          {
+            sliderImageURL: asset.slider3,
+          },
+          {
+            sliderImageURL: asset.slider4,
+          },
+          ...response.listResult,
+        ];
+
+        setSliderList(updatedSliderList);
       } catch (error) {
         console.error("Error fetching slider data:", error);
       }
@@ -42,8 +56,15 @@ function Slider() {
     if (sliderList.length === 0) {
       setSliderList([
         {
+          sliderImageURL: asset.slider1,
+        },
+        {
           sliderImageURL: asset.slider3,
         },
+        {
+          sliderImageURL: asset.slider4,
+        },
+        // Thêm các hình ảnh mặc định khác nếu cần
       ]);
     }
   }, [sliderList]);
