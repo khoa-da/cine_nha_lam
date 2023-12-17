@@ -34,6 +34,13 @@ public class FilmController {
         return  result;
     }
 
+    @GetMapping(value="film/top4")
+    public ListOutput listTop4Film() {
+        ListOutput result = new ListOutput();
+        result.setListResult(filmService.findTop4FilmBaseOnOrderDetail());
+        return  result;
+    }
+
     @PostMapping(value="staff/film")
     public FilmDTO createFilm(@RequestBody FilmDTO model){
         return (FilmDTO) filmService.save(model);
