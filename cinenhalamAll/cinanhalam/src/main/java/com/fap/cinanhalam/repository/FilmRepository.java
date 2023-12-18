@@ -21,4 +21,10 @@ public interface FilmRepository extends JpaRepository<FilmEntity, Long> {
     @Query("SELECT f FROM FilmEntity f WHERE f.id = :id AND f.status = true")
     FilmEntity findOneByIdAndStatusTrue(@Param("id") Long id);
 
+    @Query("SELECT f FROM FilmEntity f WHERE f.status = true AND f.filmStatus Like '%Showing%'")
+    List<FilmEntity> findAllFilmShowing();
+
+    @Query("SELECT f FROM FilmEntity f WHERE f.status = true AND f.filmStatus Like '%Coming%'")
+    List<FilmEntity> findAllFilmComing();
+
 }

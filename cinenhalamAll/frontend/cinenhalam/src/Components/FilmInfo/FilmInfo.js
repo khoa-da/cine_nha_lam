@@ -1,3 +1,5 @@
+// FilmInfo.jsx
+
 import React from 'react';
 import FilmCategories from '../FilmCategories/FilmCategories';
 import './FilmInfo.scss';
@@ -22,7 +24,7 @@ function FilmInfo({ film }) {
         <FilmCategories filmId={film.filmId} />
         
         <div>
-          <b>Thời lượng:</b> {duration} mins
+          <b>Thời lượng:</b> {duration} Phút 
         </div>
 
         <div>

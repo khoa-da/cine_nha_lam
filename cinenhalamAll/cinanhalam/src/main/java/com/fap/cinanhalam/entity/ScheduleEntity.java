@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -30,18 +31,21 @@ public class ScheduleEntity extends BaseEntity{
     @Temporal(TemporalType.TIME)
     @Column(name = "start_hour")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-    private Date startHour;
+    private LocalTime startHour;
 
     @Temporal(TemporalType.TIME)
     @Column(name = "end_hour")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-    private Date endHour;
+    private LocalTime endHour;
 
-    @ManyToOne
-    @JoinColumn(name = "film_id", nullable = false)
-    private FilmEntity film;
+    @OneToMany(mappedBy = "schedule", fetch = FetchType.LAZY)
+    private List<FilmCinemaEntity> filmCinemas;
 
     @OneToMany(mappedBy = "schedule", fetch = FetchType.LAZY)
     private List<TicketEntity> tickets;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "film_id", nullable = false)
+    private FilmEntity film;
 
 }

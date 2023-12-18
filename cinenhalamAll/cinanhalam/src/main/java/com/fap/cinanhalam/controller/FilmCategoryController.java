@@ -6,6 +6,8 @@ import com.fap.cinanhalam.service.impl.FilmCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/api")
@@ -42,6 +44,11 @@ public class FilmCategoryController {
     @DeleteMapping(value = "staff/film-category/{id}")
     public void changeStatus(@RequestBody @PathVariable("id") Long id){
         filmCategoryService.changeStatus(id);
+    }
+
+    @GetMapping("customer/film-category/categories/{filmId}")
+    public List<String> findAllCategoryNamesByFilmId(@PathVariable Long filmId) {
+        return filmCategoryService.findAllCategoryNamesByFilmId(filmId);
     }
 
 }

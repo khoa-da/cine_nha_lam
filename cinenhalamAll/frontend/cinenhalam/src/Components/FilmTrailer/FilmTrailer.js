@@ -1,15 +1,21 @@
 // FilmTrailer.js
 import React from 'react';
 import YouTube from 'react-youtube';
+import './FilmTrailer.scss';
 
 function FilmTrailer({ videoId }) {
   return (
     <div className="trailer-video">
-      <YouTube
-        videoId={videoId}
-        onReady={() => console.log('Video ready')}
-        onPlay={() => console.log('Video played')} 
-      />
+      <div className="youtube-container">
+        <YouTube
+          videoId={videoId}
+          onReady={(event) => {
+            event.target.pauseVideo(); // Optionally pause the video when ready
+            console.log('Video ready');
+          }}
+        />
+        <div className="trailer-text">Trailer</div>
+      </div>
     </div>
   );
 }

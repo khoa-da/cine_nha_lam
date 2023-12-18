@@ -1,5 +1,6 @@
 package com.fap.cinanhalam.service.impl;
 
+import com.fap.cinanhalam.Enum.FilmStatus;
 import com.fap.cinanhalam.converter.GenericConverter;
 import com.fap.cinanhalam.dto.FilmDTO;
 import com.fap.cinanhalam.entity.CategoryEntity;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,6 +62,16 @@ public class FilmService implements IGenericService<FilmDTO> {
         } else {
             String convertId = getTrailerVideoId(filmDTO.getTrailerUrl());
             filmDTO.setTrailerUrl(convertId);
+            if (filmDTO.getReleaseDate() != null) {
+                Date currentDate = new Date();
+                Date releaseDate = filmDTO.getReleaseDate();
+
+                if (releaseDate.before(currentDate)) {
+                    filmDTO.setFilmStatus(FilmStatus.Showing.toString());
+                } else {
+                    filmDTO.setFilmStatus(FilmStatus.Coming.toString());
+                }
+            }
             filmEntity = (FilmEntity) genericConverter.toEntity(filmDTO, FilmEntity.class);
         }
         filmRepository.save(filmEntity);
@@ -95,7 +108,7 @@ public class FilmService implements IGenericService<FilmDTO> {
         return result;
     }
 
-
+    // Lấy ID trailer của youtube
     public String getTrailerVideoId(String trailerUrl) {
         if (trailerUrl != null && !trailerUrl.isEmpty()) {
             String pattern = "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed\\?video_id=|youtu.be%2F|\\/v%2F|watch\\?v=|\\/e\\/|v\\/|watch\\?v=|youtu.be\\/|embed\\/|watch\\?feature=player_embedded&v=|embed\\?video_id=|youtu.be%2F|\\/v%2F)([^\"&?\\/\\s]{11})";
@@ -106,5 +119,27 @@ public class FilmService implements IGenericService<FilmDTO> {
             }
         }
         return null;
+    }
+
+    // Lấy ra các bộ phim đang chiếu
+    public List<FilmDTO> findAllFilmShowing() {
+        List<FilmDTO> result = new ArrayList<>();
+        List<FilmEntity> entities = filmRepository.findAllFilmShowing();
+        for (FilmEntity entity : entities) {
+            FilmDTO filmDTO = (FilmDTO) genericConverter.toDTO(entity, FilmDTO.class);
+            result.add(filmDTO);
+        }
+        return result;
+    }
+
+    // Lấy ra các bộ phim sắp chiếu
+    public List<FilmDTO> findAllFilmComing() {
+        List<FilmDTO> result = new ArrayList<>();
+        List<FilmEntity> entities = filmRepository.findAllFilmComing();
+        for (FilmEntity entity : entities) {
+            FilmDTO filmDTO = (FilmDTO) genericConverter.toDTO(entity, FilmDTO.class);
+            result.add(filmDTO);
+        }
+        return result;
     }
 }

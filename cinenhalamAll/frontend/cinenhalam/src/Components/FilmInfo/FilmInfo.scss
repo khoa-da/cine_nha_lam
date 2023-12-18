@@ -1,5 +1,45 @@
-.film-info{
-    margin-top: 5%;
-    margin-right: 300px;
-    max-height: auto;
-}
+.film-info {
+    background-color: #e29c12;
+    margin-top: 30px;
+    margin-right: 50px;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.3); /* Updated box shadow for more prominence */
+  
+    .title {
+      font-size: 24px;
+      
+    }
+  
+    .name {
+      font-size: 20px;
+      font-weight: 500px;
+      margin-bottom: 10px;
+    }
+  
+    .additional-details {
+      flex-wrap: wrap;
+      font-size: 17px;
+      .bold-text {
+        font-weight: bold;
+      }
+      div {
+        
+        background-color: #fff4f4; // Set background color to white for each div
+        border-radius: 5px; // Add border-radius for rounded corners
+        margin-bottom: 10px; // Add margin between each div
+        padding: 15px; // Adjust padding as needed
+        border-radius: 50px;
+        &:last-child {
+          margin-bottom: 0; // Remove margin for the last child to avoid extra space
+        }
+      }
+    }
+  
+    .description {
+      font-style: italic;
+      color: #252121;
+      margin: 20px 0;
+    }
+  }
+  

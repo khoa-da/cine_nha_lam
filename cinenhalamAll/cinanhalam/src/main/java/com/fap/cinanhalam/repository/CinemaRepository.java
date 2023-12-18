@@ -17,4 +17,7 @@ public interface CinemaRepository extends JpaRepository<CinemaEntity, Long> {
 
     @Query("SELECT c FROM CinemaEntity c WHERE c.id = :id and c.status = true")
     CinemaEntity findOneByIdAndStatusTrue(@Param("id") Long id);
+
+    @Query("SELECT c FROM CinemaEntity c JOIN c.province p WHERE p.name = :provinceName and c.status = true")
+    List<CinemaEntity> findAllByProvinceName(@Param("provinceName") String provinceName);
 }

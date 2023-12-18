@@ -75,4 +75,14 @@ public class ProvinceService implements IGenericService<ProvinceDTO> {
     public List<ProvinceDTO> findAll(Pageable pageable) {
         return null;
     }
+
+//    public List<ProvinceDTO> findProvincesByFilmId(Long filmId) {
+//        List<ProvinceDTO> result = new ArrayList<>();
+//        List<ProvinceEntity> entities = provinceRepository.findProvincesByFilmId(filmId);
+//        for(ProvinceEntity entity : entities){
+//            ProvinceDTO provinceDTO = (ProvinceDTO) genericConverter.toDTO(entity, ProvinceDTO.class);
+//            result.add(provinceDTO);
+//        }
+//        return result;
+//    }
 }

@@ -87,4 +87,15 @@ public class CinemaService implements IGenericService<CinemaDTO> {
     public List<CinemaDTO> findAll(Pageable pageable) {
         return null;
     }
+
+    public List<CinemaDTO> findAllCinemaByProvinceName(String provinceName) {
+        List<CinemaDTO> result = new ArrayList<>();
+        List<CinemaEntity> entities = cinemaRepository.findAllByProvinceName(provinceName);
+        for(CinemaEntity entity : entities){
+            CinemaDTO cinemaDTO = (CinemaDTO) genericConverter.toDTO(entity, CinemaDTO.class);
+            result.add(cinemaDTO);
+        }
+        return result;
+    }
+
 }

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Grid } from '@mui/material';
+import { Grid , Typography } from '@mui/material';
 import FilmInfo from '../../Components/FilmInfo/FilmInfo';
 import FilmPoster from '../../Components/FilmPoster/FilmPoster';
 import FilmTrailer from '../../Components/FilmTrailer/FilmTrailer';
 import FilmRelated from '../../Components/FilmRelated/FilmRelated';
 import axios from 'axios';  // Import Axios
 import './FilmDetail.scss';
+import Navbar from "../../Parts/Navbar/Navbar";
+import Footer from "../../Parts/Footer/Footer";
 
 function FilmDetail({ filmId }) {
   const [film, setFilm] = useState(null);
@@ -34,26 +36,38 @@ function FilmDetail({ filmId }) {
   }
 
   return (
-    <Grid container spacing={3}>
-      {/* Left half for FilmPoster */}
-      <Grid item xs={12} md={6}>
-        <FilmPoster film={film} />
-      </Grid>
+    <>
+      <Navbar />
+      <Grid container spacing={3} className="yellowBackground">
+        {/* Left half for FilmPoster */}
+        <Grid item xs={12} md={6}>
+          <FilmPoster film={film} />
+        </Grid>
+  
+        {/* Right half for FilmInfo and Trailer */}
+        <Grid item xs={12} md={6}>
+          <FilmInfo film={film} />
+        </Grid>
+  
 
-      {/* Right half for FilmInfo and Trailer */}
-      <Grid item xs={12} md={6}>
-        <FilmInfo film={film} />
+        <Grid item xs={6.5}>
+            <Typography variant="h4" align="right">Trailer</Typography>
+          </Grid>
+
+        {/* Centered YouTube video using FilmTrailer component */}
+        <Grid item xs={12}>
+          <FilmTrailer videoId={film.trailerUrl} />
+        </Grid>
+        
+        <Grid item xs={12}>
+          <FilmRelated />
+        </Grid>
+        <Footer />
       </Grid>
-      
-      {/* Centered YouTube video using FilmTrailer component */}
-      <Grid item xs={12}>
-        <FilmTrailer videoId={film.trailerUrl} />
-      </Grid>
-      <Grid>
-      <FilmRelated />
-      </Grid>
-    </Grid>
+    </>
   );
+
+  
 }
 
 export default FilmDetail;

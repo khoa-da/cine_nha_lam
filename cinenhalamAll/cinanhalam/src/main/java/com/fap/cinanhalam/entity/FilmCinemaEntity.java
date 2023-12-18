@@ -19,17 +19,11 @@ import java.util.Date;
 public class FilmCinemaEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "film_id", nullable = false)
-    private FilmEntity film;
+    @JoinColumn(name = "schedule_id", nullable = false)
+    private ScheduleEntity schedule;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cinema_id", nullable = false)
     private CinemaEntity cinema;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "screening_time", updatable = false)
-    @CreationTimestamp
-    @Convert(converter = DateConverter.class)
-    private Date screeningTime;         //  thời gian chiếu của bộ phim tại rạp chiếu
 
 }

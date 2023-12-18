@@ -44,4 +44,11 @@ public class CinemaController {
         cinemaService.changeStatus(id);
     }
 
+    @GetMapping(value = "customer/cinema/{provinceName}")
+    public ListOutput showAllCinemaByProvinceName(@PathVariable String provinceName) {
+        ListOutput result = new ListOutput();
+        result.setListResult(cinemaService.findAllCinemaByProvinceName(provinceName));
+        return result;
+    }
+
 }
