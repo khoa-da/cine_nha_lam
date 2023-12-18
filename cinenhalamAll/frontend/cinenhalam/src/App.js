@@ -8,14 +8,13 @@ import HomePage from "./Pages/HomePage/HomePage";
 import Slider from "./Components/Slider/Slider";
 import FilmDetail from "./Pages/FilmDetail/FilmDetail";
 import Footer from "./Parts/Footer/Footer";
+import Promotion from "./Pages/Promotion/Promotion";
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/footer" element={<Footer />} />
-        <Route path="/slider" element={<Slider />} />
+        <Route path="/promotion" element={<Promotion />} />
         <Route path="/" element={<HomePage />} />
-        <Route path="/filmInfo" element={<FilmInfo />} />
         <Route path="/filmDetail" element={<FilmDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
