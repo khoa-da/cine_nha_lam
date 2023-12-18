@@ -121,6 +121,16 @@ public class FilmService implements IGenericService<FilmDTO> {
         return null;
     }
 
+    public List<FilmDTO> findTop4FilmBaseOnOrderDetail(){
+        List<FilmDTO> result = new ArrayList<>();
+        List<FilmEntity> entities = filmRepository.findTop4FilmsWithMostTicketDetails();
+        for(FilmEntity entity : entities){
+            FilmDTO filmDTO = (FilmDTO) genericConverter.toDTO(entity, FilmDTO.class);
+            result.add(filmDTO);
+        }
+        return result;
+    }
+
     // Lấy ra các bộ phim đang chiếu
     public List<FilmDTO> findAllFilmShowing() {
         List<FilmDTO> result = new ArrayList<>();

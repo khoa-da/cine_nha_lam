@@ -9,5 +9,9 @@ const asset = {
   slider5: require("./wallpaperflare.com_wallpaper (7).jpg"),
   slider6: require("./wallpaperflare.com_wallpaper (8).jpg"),
   slider7: require("./wallpaperflare.com_wallpaper (9).jpg"),
+  iconLogin: require("./login.png"),
+  iconRegister: require("./register.png"),
+  iconCall: require("./call.png"),
+  memberEx: require("./memberFriend.png"),
 };
 export default asset;
