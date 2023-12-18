@@ -72,8 +72,8 @@ public class UserService implements IGenericService<UserDTO> {
 //        userEntity.setRoleId(userRoleEntities);
 
         Long userId = userEntity.getId();
-        List<Long> userRoleEntities = userRoleRepository.findRoleIdsByUserId2(userId);
-        userDTO.setRoleId(userRoleEntities);
+        List<UserRoleEntity> userRoleEntities = userRoleRepository.findRoleIdsByUserId(userId);
+        userEntity.setRoleId(userRoleEntities);
 
         userEntity = userRepository.save(userEntity);
 
