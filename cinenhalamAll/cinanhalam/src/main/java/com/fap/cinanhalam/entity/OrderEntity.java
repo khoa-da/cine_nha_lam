@@ -30,7 +30,7 @@ public class OrderEntity extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = true)
-    private UserEntity userId;
+    private UserEntity user;
 
     @PrePersist
     public void preOrder() {

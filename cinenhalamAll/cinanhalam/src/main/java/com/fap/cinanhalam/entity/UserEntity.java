@@ -55,11 +55,11 @@ public class UserEntity extends BaseEntity{
     @Column
     private String dob;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private RoleEntity role;
+//    @ManyToOne
+//    @JoinColumn(name = "role_id")
+//    private RoleEntity role;
 
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "user")
     private List<OrderEntity> order =new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
@@ -67,4 +67,10 @@ public class UserEntity extends BaseEntity{
 
     @OneToMany(mappedBy = "replyer")
     private List<FeedbackEntity> feedbackRs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<UserRoleEntity> roleId = new ArrayList<>();
+
+
+
 }

@@ -2,8 +2,11 @@ package com.fap.cinanhalam.service.impl;
 
 import com.fap.cinanhalam.converter.GenericConverter;
 import com.fap.cinanhalam.dto.UserDTO;
+import com.fap.cinanhalam.dto.UserRoleDTO;
 import com.fap.cinanhalam.entity.UserEntity;
+import com.fap.cinanhalam.entity.UserRoleEntity;
 import com.fap.cinanhalam.repository.UserRepository;
+import com.fap.cinanhalam.repository.UserRoleRepository;
 import com.fap.cinanhalam.service.IGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +23,12 @@ public class UserService implements IGenericService<UserDTO> {
 
     @Autowired
     GenericConverter genericConverter;
+
+    @Autowired
+    UserRoleService userRoleService;
+
+    @Autowired
+    UserRoleRepository userRoleRepository;
 
     @Override
     public List<UserDTO> findAll() {
@@ -54,11 +63,33 @@ public class UserService implements IGenericService<UserDTO> {
             userEntity = (UserEntity) genericConverter.updateEntity(userDTO, oldEntity);
         } else {
             userEntity = (UserEntity) genericConverter.toEntity(userDTO, UserEntity.class);
+            // Lưu userEntity để có ID
+            userEntity = userRepository.save(userEntity);
         }
-        userRepository.save(userEntity);
-        return (UserDTO) genericConverter.toDTO(userEntity, UserDTO.class);
 
+//        Long userId = userEntity.getId();
+//        List<UserRoleEntity> userRoleEntities = userRoleRepository.findRoleIdsByUserId(userId);
+//        userEntity.setRoleId(userRoleEntities);
+
+        Long userId = userEntity.getId();
+        List<Long> userRoleEntities = userRoleRepository.findRoleIdsByUserId2(userId);
+        userDTO.setRoleId(userRoleEntities);
+
+        userEntity = userRepository.save(userEntity);
+
+        List<Long> roleIds = userDTO.getRoleId();
+        if (roleIds != null && !roleIds.isEmpty()) {
+            for (Long roleId : roleIds) {
+                UserRoleDTO userRoleDTO = new UserRoleDTO();
+                userRoleDTO.setUserId(userEntity.getId());
+                userRoleDTO.setRoleId(roleId);
+                userRoleService.save(userRoleDTO);
+            }
+        }
+
+        return (UserDTO) genericConverter.toDTO(userEntity, UserDTO.class);
     }
+
 
     @Override
     public void changeStatus(Long ids) {

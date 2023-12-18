@@ -2,6 +2,8 @@ package com.fap.cinanhalam.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,5 +17,5 @@ public class UserDTO extends BaseDTO{
     private String imgUrl;
     private Boolean gender;
     private String dob;
-    private Long roleId;
+    private List<Long> roleId;
 }
