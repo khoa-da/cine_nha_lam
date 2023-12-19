@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 @Service
 public class ProvinceService implements IGenericService<ProvinceDTO> {
@@ -76,13 +79,13 @@ public class ProvinceService implements IGenericService<ProvinceDTO> {
         return null;
     }
 
-//    public List<ProvinceDTO> findProvincesByFilmId(Long filmId) {
-//        List<ProvinceDTO> result = new ArrayList<>();
-//        List<ProvinceEntity> entities = provinceRepository.findProvincesByFilmId(filmId);
-//        for(ProvinceEntity entity : entities){
-//            ProvinceDTO provinceDTO = (ProvinceDTO) genericConverter.toDTO(entity, ProvinceDTO.class);
-//            result.add(provinceDTO);
-//        }
-//        return result;
-//    }
+    public List<String> findDistinctProvinceNamesByFilmIdAndScreeningDate(Long filmId, String screeningDate) {
+            try {
+                Date date = new SimpleDateFormat("yyyy-MM-dd").parse(screeningDate);
+                return provinceRepository.findDistinctProvinceNamesByFilmIdAndScreeningDate(filmId, date);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        return null;
+    }
 }

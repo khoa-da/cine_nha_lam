@@ -1,6 +1,7 @@
 package com.fap.cinanhalam.service.impl;
 
 import com.fap.cinanhalam.converter.GenericConverter;
+import com.fap.cinanhalam.dto.FilmCategoryDTO;
 import com.fap.cinanhalam.dto.FilmCinemaDTO;
 import com.fap.cinanhalam.entity.*;
 import com.fap.cinanhalam.repository.CinemaRepository;
@@ -75,6 +76,8 @@ public class FilmCinemaService implements IGenericService<FilmCinemaDTO> {
             }
         }
         filmCinemaRepository.save(filmCinemaEntity);
+        FilmCinemaDTO result = (FilmCinemaDTO) genericConverter.toDTO(filmCinemaEntity, FilmCinemaDTO.class);
+
         return (FilmCinemaDTO) genericConverter.toDTO(filmCinemaEntity, FilmCinemaDTO.class);
     }
 

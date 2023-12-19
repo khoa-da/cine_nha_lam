@@ -12,6 +12,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class ScheduleDTO extends BaseDTO{
+
+    private String filmName;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date screeningDate;
 
@@ -20,6 +23,6 @@ public class ScheduleDTO extends BaseDTO{
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime  endHour;
+
     private Long filmId;
-    private String filmName;
 }

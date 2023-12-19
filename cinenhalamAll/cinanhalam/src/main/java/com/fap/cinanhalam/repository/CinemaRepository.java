@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface CinemaRepository extends JpaRepository<CinemaEntity, Long> {
@@ -20,4 +21,14 @@ public interface CinemaRepository extends JpaRepository<CinemaEntity, Long> {
 
     @Query("SELECT c FROM CinemaEntity c JOIN c.province p WHERE p.name = :provinceName and c.status = true")
     List<CinemaEntity> findAllByProvinceName(@Param("provinceName") String provinceName);
+
+    @Query("SELECT DISTINCT c.name, s.startHour, s.endHour, s.screeningDate " +
+            "FROM CinemaEntity c " +
+            "JOIN ProvinceEntity p ON p.id = c.province.id " +
+            "JOIN FilmCinemaEntity fc ON fc.cinema.id = c.id " +
+            "JOIN ScheduleEntity s ON s.id = fc.schedule.id " +
+            "WHERE s.film.id = :filmId AND p.name = :provinceName AND s.screeningDate = :date")
+    List<Object[]> findDistinctCinemaDetailsByFilmIdAndProvinceName(@Param("filmId") Long filmId,
+                                                                    @Param("provinceName") String provinceName,
+                                                                    @Param("date") Date date);
 }

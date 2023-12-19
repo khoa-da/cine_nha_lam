@@ -63,17 +63,16 @@ public class UserService implements IGenericService<UserDTO> {
             userEntity = (UserEntity) genericConverter.updateEntity(userDTO, oldEntity);
         } else {
             userEntity = (UserEntity) genericConverter.toEntity(userDTO, UserEntity.class);
-            // Lưu userEntity để có ID
             userEntity = userRepository.save(userEntity);
         }
 
-//        Long userId = userEntity.getId();
-//        List<UserRoleEntity> userRoleEntities = userRoleRepository.findRoleIdsByUserId(userId);
-//        userEntity.setRoleId(userRoleEntities);
-
         Long userId = userEntity.getId();
-        List<Long> userRoleEntities = userRoleRepository.findRoleIdsByUserId2(userId);
-        userDTO.setRoleId(userRoleEntities);
+        List<UserRoleEntity> userRoleEntities = userRoleRepository.findRoleIdsByUserId(userId);
+        userEntity.setRoleId(userRoleEntities);
+
+//        Long userId = userEntity.getId();
+//        List<Long> userRoleEntities = userRoleRepository.findRoleIdsByUserId2(userId);
+//        userDTO.setRoleId(userRoleEntities);
 
         userEntity = userRepository.save(userEntity);
 
@@ -86,8 +85,9 @@ public class UserService implements IGenericService<UserDTO> {
                 userRoleService.save(userRoleDTO);
             }
         }
-
-        return (UserDTO) genericConverter.toDTO(userEntity, UserDTO.class);
+        UserDTO result = (UserDTO) genericConverter.toDTO(userEntity, UserDTO.class);
+        result.setRoleId(roleIds);
+        return result;
     }
 
 

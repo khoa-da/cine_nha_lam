@@ -17,6 +17,7 @@ import java.util.Date;
 public class FilmCinemaDTO extends BaseDTO{
     private Long cinemaId;
     private String cinemaName;
+    private String filmName;
     private Long scheduleId;
     private Date scheduleScreeningDate;
     private LocalTime scheduleStartHour;

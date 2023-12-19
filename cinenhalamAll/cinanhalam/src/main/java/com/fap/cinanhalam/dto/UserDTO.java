@@ -1,5 +1,6 @@
 package com.fap.cinanhalam.dto;
 
+import com.fap.cinanhalam.entity.UserEntity;
 import lombok.*;
 
 import java.util.List;

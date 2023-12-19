@@ -55,11 +55,13 @@ public class ScheduleService implements IGenericService<ScheduleDTO> {
         } else {
             String film = scheduleDTO.getFilmName();
             FilmEntity existingFilm = filmRepository.findOneByNameAndStatusTrue(film);
-            if(existingFilm != null) {
+            if (existingFilm != null) {
                 scheduleEntity = (ScheduleEntity) genericConverter.toEntity(scheduleDTO, ScheduleEntity.class);
                 scheduleEntity.setFilm(existingFilm);
-            }else{
+            }else if(existingFilm == null){
                 throw new RuntimeException("Film with name " + film + " not found.");
+            }else{
+                throw new RuntimeException("Screening date must be after release date");
             }
         }
         scheduleRepository.save(scheduleEntity);

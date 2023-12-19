@@ -45,7 +45,7 @@ public class FilmCinemaController {
     }
 
     @GetMapping(value="customer/film-cinema/{provinceName}")
-    public ListOutput showAllCinemaByProvinceName(@RequestParam String provinceName) {
+    public ListOutput showAllCinemaByProvinceName(@PathVariable String provinceName) {
         ListOutput result = new ListOutput();
         result.setListResult(filmCinemaService.findAllCinemaByProvinceName(provinceName));
         return result;
