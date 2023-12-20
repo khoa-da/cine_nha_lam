@@ -1,0 +1,121 @@
+// .register-container {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 100vh;
+//   background-color: #e9ecef; /* Light grey background */
+// }
+
+// .register-inner {
+//   background-color: #fff; /* White background for the form */
+//   padding: 25px;
+//   border-radius: 15px;
+//   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+//   max-width: 400px;
+//   width: 100%;
+// }
+
+// .label,
+// label {
+//   display: block;
+//   margin-bottom: 10px;
+//   font-weight: 600; /* Make labels bold */
+//   color: #495057; /* Dark grey color for text */
+// }
+
+// .input-field,
+// input,
+// select {
+//   width: 100%;
+//   padding: 10px 15px;
+//   margin-bottom: 20px;
+//   border: 2px solid #ced4da; /* Slightly thicker border */
+//   border-radius: 5px;
+//   box-sizing: border-box;
+//   font-size: 16px;
+//   transition: border-color 0.3s; /* Smooth transition for border color */
+// }
+
+// .input-field:focus,
+// input:focus,
+// select:focus {
+//   border-color: #80bdff; /* Highlight color on focus */
+//   outline: none;
+// }
+
+// .error-message {
+//   color: #d9534f;
+//   margin-top: 5px;
+//   font-size: 14px;
+// }
+
+// .btn-register {
+//   text-align: center;
+//   margin-top: 25px;
+// }
+
+// button {
+//   background-color: #007bff; /* Primary blue color */
+//   color: #fff;
+//   padding: 12px 25px;
+//   font-size: 18px;
+//   border: none;
+//   border-radius: 5px;
+//   cursor: pointer;
+//   transition: background-color 0.3s; /* Smooth background transition */
+// }
+
+// button:hover {
+//   background-color: #0056b3; /* Darker shade on hover */
+// }
+
+// /* Additional Styling */
+// .valid {
+//   border-color: #28a745; /* Green color for valid input */
+// }
+
+// .invalid {
+//   border-color: #dc3545; /* Red color for invalid input */
+// }
+
+// .instructions,
+// .error,
+// .offscreen {
+//   font-size: 14px;
+//   margin-top: 5px;
+//   color: #6c757d; /* Grey color for instructional text */
+// }
+
+// /* Specific Styling for the FontAwesome Icon */
+// .faInfoCircle {
+//   margin-right: 5px;
+//   color: #17a2b8; /* Info blue color */
+// }
+
+// /* Responsive Design */
+// @media (max-width: 768px) {
+//   .register-inner {
+//     margin: 10px; /* Slight margin for smaller screens */
+//     width: auto; /* Adjust width for smaller screens */
+//   }
+// }
+
+.instructions {
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background: #000;
+  color: #fff;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+}

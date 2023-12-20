@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import ProvinceAPI from '../../Api/ProvinceAPI';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import ProvinceAPI from "../../Api/ProvinceAPI";
 
 const ProvinceList = ({ filmId, screeningDate }) => {
   const [cities, setCities] = useState([]);
@@ -8,12 +8,16 @@ const ProvinceList = ({ filmId, screeningDate }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ProvinceAPI.getAllProvincesByFilmAndDate(filmId, screeningDate)
+        const response = await ProvinceAPI.getAllProvincesByFilmAndDate(
+          filmId,
+          screeningDate
+        );
+        console.log(response);
         setCities(response.data);
         // const response = await axios.get('http://localhost:8086/api/customer/province/1/date/2023-12-30');
         // setCities(response.data);
       } catch (error) {
-        console.error('Error fetching related films:', error);
+        console.error("Error fetching related films:", error);
       }
     };
 
@@ -31,7 +35,7 @@ const ProvinceList = ({ filmId, screeningDate }) => {
         {cities.map((city, index) => (
           // Split each string into individual characters
           <li key={index}>
-            {city.split('').map((char, charIndex) => (
+            {city.split("").map((char, charIndex) => (
               <span key={`${index}-${charIndex}`}>{char}</span>
             ))}
           </li>
