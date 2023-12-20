@@ -1,34 +1,8 @@
-.city-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 10px;
-    background-color: rgb(234, 115, 11);
-  }
-  
-  .city {
-    cursor: pointer;
-    padding: 10px;
-    margin: 5px;
-    border: 1px solid #0b0a0a;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s;
-  }
-  
-  .city:hover {
-    background-color: #c23838;
-  }
-  
-  .selected-city {
-    margin-top: 20px;
-  }
-
-  .date-container {
+ .date-container {
     display: flex;
     overflow-x: auto;
     padding: 10px;
-    background-color: #f3f3f3; /* Adjust the background color as needed */
+    background-color: rgb(234, 115, 11); /* Adjust the background color as needed */
   }
   
   .date {
@@ -56,5 +30,3 @@
     border-color: #000; /* Adjust selected date border color as needed */
     font-weight: bold;
   }
-  
-  /* Add additional styles for the city-container and selected-city as needed */

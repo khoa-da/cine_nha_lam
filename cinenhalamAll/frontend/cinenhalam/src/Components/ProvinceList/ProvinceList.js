@@ -1,42 +1,46 @@
+// ProvinceList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import "./ProvinceList.scss";
 import ProvinceAPI from '../../Api/ProvinceAPI';
 
-const ProvinceList = ({ filmId, screeningDate }) => {
+const ProvinceList = ({ filmId, screeningDate, onProvinceSelect }) => {
   const [cities, setCities] = useState([]);
+  const [selectedCity, setSelectedCity] = useState(null);
+
+  const fetchData = async (date) => {
+    try {
+      const response = await axios.get(`http://localhost:8086/api/customer/province/${filmId}/date/${date}`);
+      setCities(response.data);
+    } catch (error) {
+      console.error('Error fetching cities:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await ProvinceAPI.getAllProvincesByFilmAndDate(filmId, screeningDate)
-        setCities(response.data);
-        // const response = await axios.get('http://localhost:8086/api/customer/province/1/date/2023-12-30');
-        // setCities(response.data);
-      } catch (error) {
-        console.error('Error fetching related films:', error);
-      }
-    };
-
-    fetchData();
+    if (screeningDate) {
+      fetchData(screeningDate);
+    }
   }, [filmId, screeningDate]);
 
-  if (!cities) {
-    return <div>Loading...</div>;
+  const handleClick = (city) => {
+    setSelectedCity(city);
+    onProvinceSelect(city); // Triggers the onProvinceSelect function in the parent component
+  };
+
+  if (!cities || !cities.length) {
+    return <div>Mời Bạn Chọn Ngày</div>;
   }
 
   return (
     <div>
-      {/* Render your cities data here */}
-      <ul>
+      <div className="city-container">
         {cities.map((city, index) => (
-          // Split each string into individual characters
-          <li key={index}>
-            {city.split('').map((char, charIndex) => (
-              <span key={`${index}-${charIndex}`}>{char}</span>
-            ))}
-          </li>
+          <div key={index} className="city" onClick={() => handleClick(city)}>
+            {city}
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
