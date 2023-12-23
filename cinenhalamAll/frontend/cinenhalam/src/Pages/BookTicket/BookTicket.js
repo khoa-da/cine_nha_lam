@@ -5,9 +5,11 @@ import CinemaList from '../../Components/CinemaList/CinemaList';
 import Navbar from "../../Parts/Navbar/Navbar";
 import Footer from "../../Parts/Footer/Footer";
 import DateSelector from '../../Components/DateSelector/DateSelector';
+import { useParams } from 'react-router-dom';
 
 function BookTicket() {
-  const defaultFilmId = "1";
+  const { filmId } = useParams();
+  const defaultFilmId = filmId; // Chú ý ở đây, không cần là {filmId}
   const [selectedDate, setSelectedDate] = useState();
   const [selectedProvince, setSelectedProvince] = useState();
 

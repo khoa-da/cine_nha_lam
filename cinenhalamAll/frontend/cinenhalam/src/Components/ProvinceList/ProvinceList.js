@@ -10,8 +10,8 @@ const ProvinceList = ({ filmId, screeningDate, onProvinceSelect }) => {
 
   const fetchData = async (date) => {
     try {
-      const response = await axios.get(`http://localhost:8086/api/customer/province/${filmId}/date/${date}`);
-      setCities(response.data);
+      const response = await ProvinceAPI.getAllProvincesByFilmAndDate(filmId, screeningDate);
+      setCities(response);
     } catch (error) {
       console.error('Error fetching cities:', error);
     }
@@ -25,7 +25,7 @@ const ProvinceList = ({ filmId, screeningDate, onProvinceSelect }) => {
 
   const handleClick = (city) => {
     setSelectedCity(city);
-    onProvinceSelect(city); // Triggers the onProvinceSelect function in the parent component
+    onProvinceSelect(city);
   };
 
   if (!cities || !cities.length) {

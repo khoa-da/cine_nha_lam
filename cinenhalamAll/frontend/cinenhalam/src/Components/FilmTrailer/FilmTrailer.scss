@@ -8,7 +8,6 @@
     position: relative;
   }
   
-  // FilmTrailer.scss
 
 .trailer-text {
     position: absolute;
@@ -21,4 +20,13 @@
     z-index: 1; // Ensure the text is above the video
   }
   
+
+  .trailername {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   

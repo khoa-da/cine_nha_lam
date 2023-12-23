@@ -23,8 +23,8 @@ function App() {
       <Routes>
         <Route path="/promotion" element={<Promotion />} />
         <Route path="/" element={<HomePage />} />
-        <Route path="/filmDetail" element={<FilmDetail />} />
-        <Route path="/book" element={<BookTicket />} />
+        <Route path="/filmDetail/:filmId" element={<FilmDetail />} />
+        <Route path="/book/:filmId" element={<BookTicket />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
