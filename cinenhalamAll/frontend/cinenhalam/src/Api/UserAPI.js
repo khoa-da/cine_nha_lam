@@ -1,9 +1,4 @@
 import axiosClient from "./AxiosClient";
 
-const userAPI = {
-  register(data) {
-    const url = "/admin/user";
-    return axiosClient.post(url);
-  },
-};
+const userAPI = {};
 export default userAPI;

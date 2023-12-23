@@ -18,4 +18,6 @@ public interface UserRoleRepository extends JpaRepository<UserRoleEntity, Long> 
 
     @Query(value = "SELECT role_id FROM user_role WHERE user_id = :userId", nativeQuery = true)
     List<Long> findRoleIdsByUserId2(@Param("userId") Long userId);
+
+
 }

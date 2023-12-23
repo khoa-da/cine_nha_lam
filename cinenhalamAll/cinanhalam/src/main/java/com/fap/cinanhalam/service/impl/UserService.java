@@ -3,6 +3,7 @@ package com.fap.cinanhalam.service.impl;
 import com.fap.cinanhalam.converter.GenericConverter;
 import com.fap.cinanhalam.dto.UserDTO;
 import com.fap.cinanhalam.dto.UserRoleDTO;
+import com.fap.cinanhalam.entity.RoleEntity;
 import com.fap.cinanhalam.entity.UserEntity;
 import com.fap.cinanhalam.entity.UserRoleEntity;
 import com.fap.cinanhalam.repository.UserRepository;
@@ -36,7 +37,15 @@ public class UserService implements IGenericService<UserDTO> {
         List<UserEntity> entities = userRepository.findAll();
         for (UserEntity entity: entities
              ) {
+//            UserEntity userEntity = userRepository.findOneById(entity.getId());
+
+
             UserDTO userDTO = (UserDTO) genericConverter.toDTO(entity, UserDTO.class);
+
+            List<Long> userRoleEntity = userRoleRepository.findRoleIdsByUserId2(entity.getId());
+            userDTO.setRoleId(userRoleEntity);
+
+
             result.add(userDTO);
         }
         return result;
@@ -69,10 +78,6 @@ public class UserService implements IGenericService<UserDTO> {
         Long userId = userEntity.getId();
         List<UserRoleEntity> userRoleEntities = userRoleRepository.findRoleIdsByUserId(userId);
         userEntity.setRoleId(userRoleEntities);
-
-//        Long userId = userEntity.getId();
-//        List<Long> userRoleEntities = userRoleRepository.findRoleIdsByUserId2(userId);
-//        userDTO.setRoleId(userRoleEntities);
 
         userEntity = userRepository.save(userEntity);
 

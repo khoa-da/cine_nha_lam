@@ -24,7 +24,7 @@ import java.util.List;
 public class UserEntity extends BaseEntity{
     @NotBlank
     @Size(min = 3, max = 20)
-    @Column(name = "user_name")
+    @Column(name = "user_name", unique = true)
     private String userName;
 
     @NotBlank
@@ -35,7 +35,7 @@ public class UserEntity extends BaseEntity{
 
     @NotBlank
     @Email
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @NotBlank

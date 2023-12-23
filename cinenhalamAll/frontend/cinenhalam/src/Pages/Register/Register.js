@@ -7,6 +7,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import RegisterAPI from "../../Api/RegisterAPI";
+
 import { convertDate } from "../../Utils/date";
 
 import "./Register.scss";
@@ -50,6 +52,7 @@ const Register = () => {
   const [validDob, setValidDob] = useState(false);
   const [dobFocus, setDobFocus] = useState(false);
 
+  const [status, setStatus] = useState(false);
   useEffect(() => {
     setValidName(USER_REGEX.test(user));
   }, [user]);
@@ -95,13 +98,66 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = async (e) => {};
+  const handleSubmit = async (e) => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      setStatus(true);
+      const dataForUser = {
+        userName: user,
+        email,
+        password: pwd,
+        fullName,
+        dob,
+        gender,
+        status: true,
+        roleId: [1],
+      };
+
+      console.log(gender);
+      const register = await RegisterAPI.register(dataForUser, config);
+      console.log(register);
+
+      // toast({
+      //   title: "Register successfully",
+      //   status: "success",
+      //   duration: 5000,
+      //   isClosable: true,
+      //   position: "bottom",
+      // });
+
+      localStorage.setItem("userInfo", JSON.stringify(dataForUser));
+      // setLoading(false);
+    } catch (error) {
+      // toast({
+      //   title: "Error occur!",
+      //   // description: error.register.message,
+      //   status: "error",
+      //   duration: 5000,
+      //   isClosable: true,
+      //   position: "bottom",
+      // });
+      console.log("cccccc");
+    }
+  };
 
   return (
     <div className="register-container">
       <div className="register-inner">
         <div className="username">
           <label htmlFor="username">Username:</label>
+          <FontAwesomeIcon
+            icon={faCheck}
+            className={validName ? "valid" : "hide"}
+          />
+          <FontAwesomeIcon
+            icon={faTimes}
+            className={validName || !user ? "hide" : "invalid"}
+          />
+
           <input
             type="text"
             id="username"
@@ -114,25 +170,30 @@ const Register = () => {
             aria-describedby="uidnote"
             onFocus={() => setUserFocus(true)}
             onBlur={() => setUserFocus(false)}
-            className="input-username"
+            className="register-input"
             placeholder="User name"
           />
-          {validName ? <span>đúng</span> : <span>sai</span>}
+
           <p
             id="uidnote"
             className={userFocus && !validName ? "instructions" : "offscreen"}
           >
-            4 to 24 characters.
-            <br />
-            Must begin with a letter.
-            <br />
-            Letters, numbers, underscores, hyphens allowed.
+            Username must be 4 to 24 characters long, start with a letter, and
+            can include letters, numbers, underscores, and hyphens.
           </p>
           {/* {console.log(userRef.current.value)} userRef dùng để lấy giá trị */}
         </div>
 
         <div className="pwd">
           <label htmlFor="pwd">Password:</label>
+          <FontAwesomeIcon
+            icon={faCheck}
+            className={validPwd ? "valid" : "hide"}
+          />
+          <FontAwesomeIcon
+            icon={faTimes}
+            className={validPwd || !pwd ? "hide" : "invalid"}
+          />
           <input
             id="pwd"
             // ref={userRef}
@@ -140,16 +201,15 @@ const Register = () => {
             onChange={(e) => setPwd(e.target.value)}
             autoComplete="off"
             required
-            ariaInvalid={validPwd ? "false" : "true"} //có tác dụn khi ng khiếm thị nhập sai, dev phải tuân thủ theo quy tắc này
-            ariaDescribedby="pwdnote"
+            aria-invalid={validPwd ? "false" : "true"} //có tác dụn khi ng khiếm thị nhập sai, dev phải tuân thủ theo quy tắc này
+            aria-describedby="pwdnote"
             onFocus={() => setPwdFocus(true)}
             onBlur={() => setPwdFocus(false)}
             type="password"
-            className="input-password"
+            className="register-input"
             placeholder="Password"
           />
 
-          {validPwd ? <span>đúng</span> : <span>sai</span>}
           {/* {console.log(userRef.current.value)} */}
           <p
             id="pwdnote"
@@ -170,8 +230,48 @@ const Register = () => {
           </p>
         </div>
 
+        <div className="confirm_pwd">
+          <label htmlFor="confirm_pwd">Confirm Password:</label>
+          <FontAwesomeIcon
+            icon={faCheck}
+            className={validMatch && matchPwd ? "valid" : "hide"}
+          />
+          <FontAwesomeIcon
+            icon={faTimes}
+            className={validMatch || !matchPwd ? "hide" : "invalid"}
+          />
+          <input
+            type="password"
+            id="confirm_pwd"
+            onChange={(e) => setMatchPwd(e.target.value)}
+            value={matchPwd}
+            required
+            aria-invalid={validMatch ? "false" : "true"}
+            aria-describedby="confirmnote"
+            onFocus={() => setMatchFocus(true)}
+            onBlur={() => setMatchFocus(false)}
+            placeholder="Confirm Password"
+            className="register-input"
+          />
+          <p
+            id="confirmnote"
+            className={matchFocus && !validMatch ? "instructions" : "offscreen"}
+          >
+            <FontAwesomeIcon icon={faInfoCircle} />
+            Must match the first password input field.
+          </p>
+        </div>
+
         <div className="fullname">
           <label htmlFor="full-name">Full Name</label>
+          <FontAwesomeIcon
+            icon={faCheck}
+            className={validFullName ? "valid" : "hide"}
+          />
+          <FontAwesomeIcon
+            icon={faTimes}
+            className={validFullName || !fullName ? "hide" : "invalid"}
+          />
           <input
             id="full-name"
             type="text"
@@ -179,15 +279,13 @@ const Register = () => {
             value={fullName}
             autoComplete="off"
             onChange={(e) => setFullName(e.target.value)}
-            ariaInvalid={validFullName ? "false" : "true"} //có tác dụn khi ng khiếm thị nhập sai, dev phải tuân thủ theo quy tắc này
-            ariaDescribedby="fullnameNote"
+            aria-invalid={validFullName ? "false" : "true"} //có tác dụn khi ng khiếm thị nhập sai, dev phải tuân thủ theo quy tắc này
+            aria-describedby="fullnameNote"
             onFocus={() => setFullNameFocus(true)}
             onBlur={() => setFullNameFocus(false)}
-            className="input-fullname"
+            className="register-input"
             placeholder="Full name"
           />
-
-          {validFullName ? <span>đúng</span> : <span>sai</span>}
 
           <p
             id="fullnameNote"
@@ -207,6 +305,14 @@ const Register = () => {
 
         <div className="email">
           <label htmlFor="email">Email</label>
+          <FontAwesomeIcon
+            icon={faCheck}
+            className={validEmail ? "valid" : "hide"}
+          />
+          <FontAwesomeIcon
+            icon={faTimes}
+            className={validEmail || !email ? "hide" : "invalid"}
+          />
           <input
             id="email"
             type="email"
@@ -214,14 +320,14 @@ const Register = () => {
             required
             autoComplete="off"
             onChange={(e) => setEmail(e.target.value)}
-            ariaInvalid={validEmail ? "false" : "true"} //có tác dụn khi ng khiếm thị nhập sai, dev phải tuân thủ theo quy tắc này
-            ariaDescribedby="emailNote"
+            aria-invalid={validEmail ? "false" : "true"} //có tác dụn khi ng khiếm thị nhập sai, dev phải tuân thủ theo quy tắc này
+            aria-describedby="emailNote"
             onFocus={() => setEmailFocus(true)}
             onBlur={() => setEmailFocus(false)}
-            className="input-email"
+            className="register-input"
             placeholder="Email"
           />
-          {validEmail ? <span>đúng</span> : <span>sai</span>}
+
           <p
             id="emailNote"
             className={emailFocus && !validEmail ? "instructions" : "offscreen"}
@@ -233,33 +339,44 @@ const Register = () => {
 
         <div className="dob">
           <label htmlFor="birthday">Birthday</label>
-
+          <FontAwesomeIcon
+            icon={faCheck}
+            className={validDob ? "valid" : "hide"}
+          />
+          <FontAwesomeIcon
+            icon={faTimes}
+            className={validDob || !dob ? "hide" : "invalid"}
+          />
           <input
             id="birthday"
             value={dob}
             onChange={handleDobChange}
-            ariaInvalid={validDob ? "false" : "true"} //có tác dụn khi ng khiếm thị nhập sai, dev phải tuân thủ theo quy tắc này
-            ariaDescribedby="dobNote"
+            aria-invalid={validDob ? "false" : "true"} //có tác dụn khi ng khiếm thị nhập sai, dev phải tuân thủ theo quy tắc này
+            aria-describedby="dobNote"
             onFocus={() => setDobFocus(true)}
             onBlur={() => setDobFocus(false)}
             type="date"
-            className="dob"
+            className="register-input"
             placeholder="Birthday"
           />
-
-          {validDob ? <span>đúng</span> : <span>sai</span>}
         </div>
 
         <div className="gender">
-          <label for="gender"> Gender</label>
-          <select id="gender" name="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+          <label htmlFor="gender"> Gender</label>
+          <select
+            id="gender"
+            name="gender"
+            required
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <option value={true}>Male</option>
+            <option value={false}>Female</option>
           </select>
         </div>
 
         <div className="btn-register">
-          <button type="submit">Register</button>
+          <button onClick={handleSubmit}>Register</button>
         </div>
       </div>
     </div>
