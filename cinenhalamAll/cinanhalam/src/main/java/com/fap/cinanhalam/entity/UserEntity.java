@@ -59,7 +59,7 @@ public class UserEntity extends BaseEntity{
     @JoinColumn(name = "role_id")
     private RoleEntity role;
 
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "user")
     private List<OrderEntity> order =new ArrayList<>();
 
     @OneToMany(mappedBy = "user")

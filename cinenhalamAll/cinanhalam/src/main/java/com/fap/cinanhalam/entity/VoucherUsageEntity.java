@@ -1,5 +1,6 @@
 package com.fap.cinanhalam.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -21,10 +22,16 @@ import lombok.ToString;
 public class VoucherUsageEntity extends BaseEntity{
 
   @ManyToOne
-  @JoinColumn(name = "order_id", nullable = false)
-  private OrderEntity order;
+  @JoinColumn(name = "order_detail_id", nullable = false)
+  private OrderDetailEntity orderDetail;
 
   @ManyToOne
   @JoinColumn(name = "voucher_id", nullable = false)
   private VoucherEntity voucher;
+
+  @Column(name = "code")
+  private String code;
+
+  @Column(name = "discouted_price")
+  private Double discoutedPrice;
 }

@@ -37,6 +37,9 @@ public class OrderDetailEntity extends BaseEntity {
   @OneToMany(mappedBy = "orderDetail")
   private List<FoodOrderDetailEntity> foodOrderDetails = new ArrayList<>();
 
+  @OneToMany(mappedBy = "orderDetail")
+  private List<VoucherUsageEntity> voucherUsages = new ArrayList<>();
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "order_id", nullable = true)
   private OrderEntity order;

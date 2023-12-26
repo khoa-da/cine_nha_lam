@@ -8,10 +8,13 @@ import com.fap.cinanhalam.entity.FoodEntity;
 import com.fap.cinanhalam.entity.FoodOrderDetailEntity;
 import com.fap.cinanhalam.entity.OrderDetailEntity;
 import com.fap.cinanhalam.entity.TicketDetailEntity;
+import com.fap.cinanhalam.entity.VoucherUsageEntity;
 import com.fap.cinanhalam.repository.FoodOrderDetailRepository;
 import com.fap.cinanhalam.repository.FoodRepository;
 import com.fap.cinanhalam.repository.OrderDetailRepository;
 import com.fap.cinanhalam.repository.TicketDetailRepository;
+import com.fap.cinanhalam.repository.VoucherRepository;
+import com.fap.cinanhalam.repository.VoucherUsageRepository;
 import com.fap.cinanhalam.service.IGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +39,9 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
   private FoodRepository foodRepository;
 
   @Autowired
+  private VoucherUsageRepository voucherUsageRepository;
+
+  @Autowired
   private GenericConverter genericConverter;
 
   @Override
@@ -56,11 +62,11 @@ public class OrderDetailService implements IGenericService<OrderDetailDTO> {
         FoodOrderDetailOutputDTOs.add(FoodOrderDetailOutputDTO);
       }
 
-      orderDetailDTO.setFoodList(FoodOrderDetailOutputDTOs);
       result.add(orderDetailDTO);
     }
     return result;
   }
+
 
 
   @Override

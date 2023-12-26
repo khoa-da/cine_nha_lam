@@ -9,4 +9,8 @@ public interface VoucherUsageRepository extends JpaRepository<VoucherUsageEntity
   List<VoucherUsageEntity> findAllByStatusTrue();
 
   VoucherUsageEntity findOneById(Long id);
+
+  VoucherUsageEntity findAllByOrderDetailIdAndCode(Long orderId, String code);
+
+List<VoucherUsageEntity> findAllByOrderDetailId(Long orderDetailId);
 }
