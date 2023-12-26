@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import FilmPoster from '../../Components/FilmPoster/FilmPoster';
-import './FilmRelated.scss'; // Import your main CSS file
+import FilmAPI from '../../Api/FilmAPI';
 import { Box, Typography, Card, CardMedia, CardContent, Grid } from '@mui/material';
 import ReactPaginate from 'react-paginate';
+import './FilmRelated.scss'; // Import your main CSS file
 
 function FilmRelated() {
   const [films, setFilms] = useState([]);
@@ -14,8 +13,8 @@ function FilmRelated() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8086/api/customer/film/category/Kinh_Dị`);
-        setFilms(response.data.listResult);
+        const response = await FilmAPI.getAllShowing(); // or FilmAPI.getAllComing();
+        setFilms(response.listResult);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching related films:', error);
@@ -32,14 +31,14 @@ function FilmRelated() {
     setPageNumber(selected);
   };
 
-    // Tự động Chuyển trang
-    useEffect(() => {
-      const intervalId = setInterval(() => {
-        setPageNumber((prevPageNumber) => (prevPageNumber + 1) % pageCount);
-      }, 3000);
-  
-      return () => clearInterval(intervalId);
-    }, [pageNumber, pageCount]);
+  // Automatically change page
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setPageNumber((prevPageNumber) => (prevPageNumber + 1) % pageCount);
+    }, 3000);
+
+    return () => clearInterval(intervalId);
+  }, [pageNumber, pageCount]);
 
   const displayFilms = films
     .slice(pageNumber * filmsPerPage, (pageNumber + 1) * filmsPerPage)
@@ -51,7 +50,7 @@ function FilmRelated() {
             <Typography gutterBottom variant="h6" component="div" className="FilmRelatedTitle">
               {film.name}
             </Typography>
-            {/* Other film details */}
+            {/* Add other film details here */}
           </CardContent>
         </Card>
       </Grid>
@@ -64,26 +63,26 @@ function FilmRelated() {
   return (
     <Box className="centered-container" sx={{ overflowX: 'auto', padding: 2 }}>
       <Typography className="title" variant="h5" gutterBottom>
-        Phim Hay Trong Tuần
+        Phim Đang Khởi Chiếu
       </Typography>
       <Grid container spacing={1}>
         {displayFilms}
       </Grid>
       {pageCount > 1 && (
         <ReactPaginate
-        previousLabel={'Previous'}
-        nextLabel={'Next'}
-        breakLabel={'...'}
-        breakClassName={'break-me'}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageChange}
-        containerClassName={'pagination'}
-        activeClassName={'active'}
-        previousClassName={'previous'}
-        nextClassName={'next'}
-      />
+          previousLabel={'Previous'}
+          nextLabel={'Next'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={'pagination'}
+          activeClassName={'active'}
+          previousClassName={'previous'}
+          nextClassName={'next'}
+        />
       )}
     </Box>
   );

@@ -1,10 +1,21 @@
-import React from 'react';
-import FilmCategories from '../FilmCategories/FilmCategories';
-import './FilmInfo.scss';
+// FilmInfo.jsx
+
+import React from "react";
+import FilmCategories from "../FilmCategories/FilmCategories";
+import "./FilmInfo.scss";
 
 function FilmInfo({ film }) {
   // Destructure properties from the film object
-  const { title, name, releaseDate, duration, director, actor, description, rating } = film;
+  const {
+    title,
+    name,
+    releaseDate,
+    duration,
+    director,
+    actor,
+    description,
+    rating,
+  } = film;
 
   return (
     <div className="film-info">
@@ -20,9 +31,9 @@ function FilmInfo({ film }) {
         </div>
 
         <FilmCategories filmId={film.filmId} />
-        
+
         <div>
-          <b>Thời lượng:</b> {duration} mins
+          <b>Thời lượng:</b> {duration} Phút
         </div>
 
         <div>
@@ -34,9 +45,7 @@ function FilmInfo({ film }) {
         </div>
       </div>
 
-      <p className="description">
-        {description}
-      </p>
+      <p className="description">{description}</p>
 
       <p>
         <b>Đánh giá:</b> {rating}

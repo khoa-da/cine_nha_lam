@@ -32,6 +32,7 @@ public class OrderEntity extends BaseEntity{
     @Column(name = "order_status")
     private OrderStatus orderStatus;
 
+
     @PrePersist
     public void preOrder() {
         this.totalPrice = 0.0;

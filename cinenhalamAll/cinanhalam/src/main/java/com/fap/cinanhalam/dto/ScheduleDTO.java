@@ -2,6 +2,8 @@ package com.fap.cinanhalam.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+
+import java.time.LocalTime;
 import java.util.Date;
 
 @ToString
@@ -10,13 +12,17 @@ import java.util.Date;
 @Getter
 @Setter
 public class ScheduleDTO extends BaseDTO{
+
+    private String filmName;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date screeningDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-    private Date startHour;
+    private LocalTime startHour;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-    private Date endHour;
-    private String filmName;
+    private LocalTime  endHour;
+
+    private Long filmId;
 }

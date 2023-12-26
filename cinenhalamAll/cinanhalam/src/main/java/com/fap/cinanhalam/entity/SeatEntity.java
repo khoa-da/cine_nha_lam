@@ -35,7 +35,7 @@ public class SeatEntity extends BaseEntity{
     @JoinColumn(name = "room_id")
     private RoomEntity room;
 
-    @OneToOne(mappedBy = "seat")
-    private TicketEntity ticket;
+//    @OneToOne(mappedBy = "seat")
+//    private TicketEntity ticket;
 
 }

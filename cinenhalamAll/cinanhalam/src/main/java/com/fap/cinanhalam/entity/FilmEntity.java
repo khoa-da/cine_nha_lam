@@ -4,6 +4,7 @@ package com.fap.cinanhalam.entity;
 import com.fap.cinanhalam.converter.DateConverter;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,9 +48,7 @@ public class FilmEntity extends BaseEntity{
     private String actor;
 
     @Temporal(TemporalType.DATE) // Specify that only the date part should be stored
-    @Column(name = "release_date", updatable = false)
-    @CreationTimestamp
-    @Convert(converter = DateConverter.class) // Use a custom converter
+    @Column(name = "release_date")
     private Date releaseDate;
 
     @Column(name = "duration")
@@ -67,10 +66,12 @@ public class FilmEntity extends BaseEntity{
     @Column(name = "trailer_url")
     private String trailerUrl;
 
-    @Column(name="status")
-    private Boolean status;
+    @Column(name="film_status")
+    private String filmStatus;
 
     @OneToMany(mappedBy = "film")
-    private List<FilmCinemaEntity> filmCinemas = new ArrayList<>();
+    private List<FilmCategoryEntity> filmCategories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "film")
+    private List<ScheduleEntity> schedules = new ArrayList<>();
 }

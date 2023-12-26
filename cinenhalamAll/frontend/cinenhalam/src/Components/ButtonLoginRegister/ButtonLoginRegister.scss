@@ -1,0 +1,71 @@
+.button-login-register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  background-color: #e1e2e1;
+}
+
+.button-login-register-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  gap: 50px;
+}
+
+.login-item,
+.register-item {
+  padding: 10px 20px;
+  background-color: transparent;
+  color: black;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  a {
+    text-decoration: none; /* Loại bỏ gạch chân */
+    color: red; /* Màu chữ khi thường */
+    transition: color 0.3s; /* Hiệu ứng chuyển đổi màu khi hover */
+    font-weight: bold;
+  }
+  a:hover {
+    color: blueviolet; /* Màu chữ khi hover */
+  }
+}
+
+.img-register {
+  width: 50px;
+  height: auto;
+}
+.img-login {
+  width: 50px;
+  height: auto;
+}
+
+.call {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: xx-large;
+
+  a {
+    text-decoration: none; /* Loại bỏ gạch chân */
+    color: red; /* Màu chữ khi thường */
+    transition: color 0.3s; /* Hiệu ứng chuyển đổi màu khi hover */
+    font-weight: bold;
+  }
+
+  a:hover {
+    color: blueviolet; /* Màu chữ khi hover */
+  }
+  .img-call {
+    width: 50px;
+    height: auto;
+  }
+}

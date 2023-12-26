@@ -66,6 +66,20 @@ public class FilmController {
         return result;
     }
 
+    @GetMapping(value = "customer/filmShowing")
+    public ListOutput showAllFilmShowing() {
+        ListOutput result = new ListOutput();
+        result.setListResult(filmService.findAllFilmShowing());
+        return  result;
+    }
+
+    @GetMapping(value = "customer/filmComing")
+    public ListOutput showAllFilmComing() {
+        ListOutput result = new ListOutput();
+        result.setListResult(filmService.findAllFilmComing());
+        return  result;
+    }
+
     @GetMapping(value = "customer/film/category/{categoryName}")
     public ListOutput findAllByCategoryNamesByFilmId(@PathVariable String categoryName) {
         ListOutput result = new ListOutput();

@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 @Service
 public class ProvinceService implements IGenericService<ProvinceDTO> {
@@ -73,6 +76,16 @@ public class ProvinceService implements IGenericService<ProvinceDTO> {
 
     @Override
     public List<ProvinceDTO> findAll(Pageable pageable) {
+        return null;
+    }
+
+    public List<String> findDistinctProvinceNamesByFilmIdAndScreeningDate(Long filmId, String screeningDate) {
+            try {
+                Date date = new SimpleDateFormat("yyyy-MM-dd").parse(screeningDate);
+                return provinceRepository.findDistinctProvinceNamesByFilmIdAndScreeningDate(filmId, date);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         return null;
     }
 }

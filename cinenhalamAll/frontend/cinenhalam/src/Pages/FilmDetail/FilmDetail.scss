@@ -6,3 +6,19 @@
   margin-top: 50px;
   margin-left: 0;
 }
+.yellowBackground {
+  margin-top: 90px;
+  background-color: rgb(234, 115, 11);
+}
+.whiteBackground{
+  background-color: white;
+}
+
+.trailer-section {
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    text-align: right;
+  }
+}

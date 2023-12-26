@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 @Service
 public class CinemaService implements IGenericService<CinemaDTO> {
@@ -87,4 +89,26 @@ public class CinemaService implements IGenericService<CinemaDTO> {
     public List<CinemaDTO> findAll(Pageable pageable) {
         return null;
     }
+
+    public List<CinemaDTO> findAllCinemaByProvinceName(String provinceName) {
+        List<CinemaDTO> result = new ArrayList<>();
+        List<CinemaEntity> entities = cinemaRepository.findAllByProvinceName(provinceName);
+        for(CinemaEntity entity : entities){
+            CinemaDTO cinemaDTO = (CinemaDTO) genericConverter.toDTO(entity, CinemaDTO.class);
+            result.add(cinemaDTO);
+        }
+        return result;
+    }
+
+    // Tìm ra các rạp theo id film và tên tỉnh
+    public List<Object[]> findDistinctCinemaDetailsByFilmIdAndProvinceName(Long filmId, String provinceName, String date) {
+        try {
+            Date parseDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return cinemaRepository.findDistinctCinemaDetailsByFilmIdAndProvinceName(filmId, provinceName, parseDate);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

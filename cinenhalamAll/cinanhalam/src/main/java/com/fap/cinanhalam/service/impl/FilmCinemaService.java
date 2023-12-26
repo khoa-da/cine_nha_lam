@@ -1,14 +1,13 @@
 package com.fap.cinanhalam.service.impl;
 
 import com.fap.cinanhalam.converter.GenericConverter;
+import com.fap.cinanhalam.dto.FilmCategoryDTO;
 import com.fap.cinanhalam.dto.FilmCinemaDTO;
-import com.fap.cinanhalam.entity.CategoryEntity;
-import com.fap.cinanhalam.entity.CinemaEntity;
-import com.fap.cinanhalam.entity.FilmCinemaEntity;
-import com.fap.cinanhalam.entity.FilmEntity;
+import com.fap.cinanhalam.entity.*;
 import com.fap.cinanhalam.repository.CinemaRepository;
 import com.fap.cinanhalam.repository.FilmCinemaRepository;
 import com.fap.cinanhalam.repository.FilmRepository;
+import com.fap.cinanhalam.repository.ScheduleRepository;
 import com.fap.cinanhalam.service.IGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +22,7 @@ public class FilmCinemaService implements IGenericService<FilmCinemaDTO> {
     private FilmCinemaRepository filmCinemaRepository;
 
     @Autowired
-    private FilmRepository filmRepository;
+    private ScheduleRepository scheduleRepository;
 
     @Autowired
     private CinemaRepository cinemaRepository;
@@ -60,23 +59,25 @@ public class FilmCinemaService implements IGenericService<FilmCinemaDTO> {
             FilmCinemaEntity oldEntity = filmCinemaRepository.findOneById(filmCinemaDTO.getId());
             filmCinemaEntity = (FilmCinemaEntity) genericConverter.updateEntity(filmCinemaDTO, oldEntity);
         } else {
-            Long filmId = filmCinemaDTO.getFilmId();
+            Long scheduleId = filmCinemaDTO.getScheduleId();
             Long cinemaId = filmCinemaDTO.getCinemaId();
-            FilmEntity existingFilm = filmRepository.findOneByIdAndStatusTrue(filmId);
+            ScheduleEntity existingSchedule = scheduleRepository.findOneByIdAndStatusTrue(scheduleId);
             CinemaEntity existingCinema = cinemaRepository.findOneByIdAndStatusTrue(cinemaId);
-            if(existingFilm != null && existingCinema != null) {
+            if(existingSchedule != null && existingCinema != null) {
                 filmCinemaEntity = (FilmCinemaEntity) genericConverter.toEntity(filmCinemaDTO, FilmCinemaEntity.class);
-                filmCinemaEntity.setFilm(existingFilm);
+                filmCinemaEntity.setSchedule(existingSchedule);
                 filmCinemaEntity.setCinema(existingCinema);
             }else{
-                if(existingFilm == null) {
-                    throw new RuntimeException("Film with id " + filmId + " not found.");
+                if(existingSchedule == null) {
+                    throw new RuntimeException("Schedule with id " + scheduleId + " not found.");
                 }else{
                     throw new RuntimeException("Cinema with id " + cinemaId + " not found.");
                 }
             }
         }
         filmCinemaRepository.save(filmCinemaEntity);
+        FilmCinemaDTO result = (FilmCinemaDTO) genericConverter.toDTO(filmCinemaEntity, FilmCinemaDTO.class);
+
         return (FilmCinemaDTO) genericConverter.toDTO(filmCinemaEntity, FilmCinemaDTO.class);
     }
 
@@ -100,4 +101,16 @@ public class FilmCinemaService implements IGenericService<FilmCinemaDTO> {
     public List<FilmCinemaDTO> findAll(Pageable pageable) {
         return null;
     }
+
+    // Tìm rạp phim theo tỉnh
+    public List<FilmCinemaDTO> findAllCinemaByProvinceName(String name) {
+        List<FilmCinemaDTO> result = new ArrayList<>();
+        List<FilmCinemaEntity> entities = filmCinemaRepository.findAll();
+        for(FilmCinemaEntity entity : entities){
+            FilmCinemaDTO filmCinemaDTO = (FilmCinemaDTO) genericConverter.toDTO(entity, FilmCinemaDTO.class);
+            result.add(filmCinemaDTO);
+        }
+        return result;
+    }
+
 }

@@ -6,6 +6,9 @@ import com.fap.cinanhalam.service.impl.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/api")
@@ -42,6 +45,21 @@ public class CinemaController {
     @DeleteMapping(value = "staff/cinema/{id}")
     public void changeStatus(@RequestBody @PathVariable("id") Long id){
         cinemaService.changeStatus(id);
+    }
+
+    @GetMapping(value = "customer/cinema/{provinceName}")
+    public ListOutput showAllCinemaByProvinceName(@PathVariable String provinceName) {
+        ListOutput result = new ListOutput();
+        result.setListResult(cinemaService.findAllCinemaByProvinceName(provinceName));
+        return result;
+    }
+
+    @GetMapping("customer/cinema/film/{filmId}/province/{provinceName}/date/{date}")
+    public List<Object[]> getCinemaDetailsByFilmIdAndProvinceName(
+            @PathVariable Long filmId,
+            @PathVariable String provinceName,
+            @PathVariable String date) {
+        return cinemaService.findDistinctCinemaDetailsByFilmIdAndProvinceName(filmId, provinceName, date);
     }
 
 }

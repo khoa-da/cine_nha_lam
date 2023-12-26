@@ -33,8 +33,10 @@ public class RoleEntity extends BaseEntity{
     @Column(name ="description")
     private String description;
 
-    @OneToMany(mappedBy = "role")
-    private List<UserEntity> users = new ArrayList<>();
+//    @OneToMany(mappedBy = "role")
+//    private List<UserEntity> users = new ArrayList<>();
 
+    @OneToMany(mappedBy = "role")
+    private List<UserRoleEntity> userRoleEntities = new ArrayList<>();
 
 }

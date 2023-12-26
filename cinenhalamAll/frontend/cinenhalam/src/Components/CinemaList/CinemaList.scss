@@ -1,0 +1,39 @@
+.cinema-list-container {
+    background-color: #f90; // Màu cam hoặc mã màu của bạn
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cinema-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .cinema-item {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 15px; // Tăng khoảng cách giữa các phần tử
+  }
+  
+  .showtimes-container {
+    display: flex;
+    gap: 10px; // Khoảng cách giữa các thẻ thời gian
+  }
+  
+  .showtime {
+    cursor: pointer; // Biến thẻ thời gian thành một con trỏ khi hover
+    background-color: #ddd; // Màu nền khi hover
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  
+  .showtime:hover {
+    background-color: #bbb; // Màu nền khi hover
+  }
+  
