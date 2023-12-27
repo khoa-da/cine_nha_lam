@@ -22,12 +22,13 @@ public interface CinemaRepository extends JpaRepository<CinemaEntity, Long> {
     @Query("SELECT c FROM CinemaEntity c JOIN c.province p WHERE p.name = :provinceName and c.status = true")
     List<CinemaEntity> findAllByProvinceName(@Param("provinceName") String provinceName);
 
-    @Query("SELECT DISTINCT c.name, s.startHour, s.endHour " +
+    @Query("SELECT DISTINCT c.name, s.startHour " +
             "FROM CinemaEntity c " +
             "JOIN ProvinceEntity p ON p.id = c.province.id " +
             "JOIN FilmCinemaEntity fc ON fc.cinema.id = c.id " +
             "JOIN ScheduleEntity s ON s.id = fc.schedule.id " +
-            "WHERE s.film.id = :filmId AND p.name = :provinceName AND s.screeningDate = :date")
+            "WHERE s.film.id = :filmId AND p.name = :provinceName AND s.screeningDate = :date "+
+            "ORDER BY s.startHour ASC")
     List<Object[]> findDistinctCinemaDetailsByFilmIdAndProvinceName(@Param("filmId") Long filmId,
                                                                     @Param("provinceName") String provinceName,
                                                                     @Param("date") Date date);

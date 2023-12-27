@@ -12,6 +12,7 @@ import RegisterAPI from "../../Api/RegisterAPI";
 import { convertDate } from "../../Utils/date";
 
 import "./Register.scss";
+import { NavLink } from "react-router-dom";
 
 // import axios from "./api/axios";
 
@@ -45,12 +46,20 @@ const Register = () => {
   const [validFullName, setValidFullName] = useState(false);
   const [fullNameFocus, setFullNameFocus] = useState(false);
 
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState(true);
   const [validGender, setValidGender] = useState(false);
 
   const [dob, setDob] = useState("");
   const [validDob, setValidDob] = useState(false);
   const [dobFocus, setDobFocus] = useState(false);
+
+  const isFormValid =
+    validName &&
+    validPwd &&
+    validMatch &&
+    validEmail &&
+    validFullName &&
+    validDob;
 
   const [status, setStatus] = useState(false);
   useEffect(() => {
@@ -92,8 +101,10 @@ const Register = () => {
     console.log(currentDate.toISOString().slice(0, 10));
     if (isDobValid) {
       setDob(selectedDate);
+      setValidDob(true);
     } else {
       setDob(convertDate(currentDate));
+
       console.log("Invalid date of birth");
     }
   };
@@ -114,7 +125,7 @@ const Register = () => {
         dob,
         gender,
         status: true,
-        roleId: [1],
+        roleIds: [1],
       };
 
       console.log(gender);
@@ -376,7 +387,16 @@ const Register = () => {
         </div>
 
         <div className="btn-register">
-          <button onClick={handleSubmit}>Register</button>
+          <button
+            onClick={handleSubmit}
+            className={isFormValid ? "valid" : "invalid"}
+          >
+            Register
+          </button>
+        </div>
+
+        <div className="login-link">
+          <NavLink to="/login">Already have an account?</NavLink>
         </div>
       </div>
     </div>

@@ -34,7 +34,7 @@ const ProvinceList = ({ filmId, screeningDate, onProvinceSelect }) => {
 
   const handleClick = (city) => {
     setSelectedCity(city);
-    onProvinceSelect(city); // Triggers the onProvinceSelect function in the parent component
+    onProvinceSelect(city);
   };
 
   if (!cities || !cities.length) {

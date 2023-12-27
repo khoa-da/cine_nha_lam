@@ -12,6 +12,10 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Logo from "../../Assets/Logo.jpg";
 import "./Login.scss";
+
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+
 function Copyright(props) {
   return (
     <Typography
@@ -137,9 +141,20 @@ export default function Login() {
               <Grid display="flex" justifyContent="center">
                 --------------OR---------------
               </Grid>
-              <Grid display="flex" justifyContent="center">
-                <Button variant="contained">Login With GOOGLE</Button>
-              </Grid>
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  const credentialResponseDecode = jwtDecode(
+                    credentialResponse.credential
+                  );
+
+                  console.log(credentialResponse);
+                  console.log(credentialResponseDecode);
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
+              ;
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>

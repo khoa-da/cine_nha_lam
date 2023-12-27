@@ -4,6 +4,7 @@ import com.fap.cinanhalam.entity.UserEntity;
 import lombok.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ToString
 @AllArgsConstructor
@@ -18,5 +19,8 @@ public class UserDTO extends BaseDTO{
     private String imgUrl;
     private Boolean gender;
     private String dob;
-    private List<Long> roleId;
+    private List<Long> roleIds;
+
+
+
 }

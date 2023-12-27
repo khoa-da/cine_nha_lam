@@ -37,13 +37,22 @@ public class UserService implements IGenericService<UserDTO> {
         List<UserEntity> entities = userRepository.findAll();
         for (UserEntity entity: entities
              ) {
-//            UserEntity userEntity = userRepository.findOneById(entity.getId());
+
+
 
 
             UserDTO userDTO = (UserDTO) genericConverter.toDTO(entity, UserDTO.class);
 
-            List<Long> userRoleEntity = userRoleRepository.findRoleIdsByUserId2(entity.getId());
-            userDTO.setRoleId(userRoleEntity);
+            List<Long> longs = new ArrayList<>();
+            List<UserRoleEntity> userRoleEntity = userRoleRepository.findRoleIdsByUserId(entity.getId());
+
+            for (UserRoleEntity userRoleEntity1 : userRoleEntity
+                 ) {
+                longs.add(userRoleEntity1.getRole().getId());
+            }
+
+
+            userDTO.setRoleIds(longs);
 
 
             result.add(userDTO);
@@ -81,7 +90,7 @@ public class UserService implements IGenericService<UserDTO> {
 
         userEntity = userRepository.save(userEntity);
 
-        List<Long> roleIds = userDTO.getRoleId();
+        List<Long> roleIds = userDTO.getRoleIds();
         if (roleIds != null && !roleIds.isEmpty()) {
             for (Long roleId : roleIds) {
                 UserRoleDTO userRoleDTO = new UserRoleDTO();
@@ -91,7 +100,7 @@ public class UserService implements IGenericService<UserDTO> {
             }
         }
         UserDTO result = (UserDTO) genericConverter.toDTO(userEntity, UserDTO.class);
-        result.setRoleId(roleIds);
+        result.setRoleIds(roleIds);
         return result;
     }
 

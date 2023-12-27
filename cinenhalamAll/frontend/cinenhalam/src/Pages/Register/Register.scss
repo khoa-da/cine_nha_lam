@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #e1e2e1;
+  background-color: #800e7a;
   min-height: 100vh;
 }
 .register-inner {
@@ -14,6 +14,7 @@
   border-radius: 10px;
   padding: 20px;
   color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 .username-password-inline {
   display: flex;
@@ -24,7 +25,7 @@
 
 .register-input {
   margin-top: 5px;
-  font-size: 20px;
+  font-size: 16px;
   border-radius: 10px;
   background-color: black;
   color: white;
@@ -36,6 +37,83 @@
   &::placeholder {
     color: rgba($color: white, $alpha: 0.7);
   }
+}
+
+/* Thêm các quy tắc CSS cho phần Gender */
+.gender {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Thêm kiểu cho nhãn label */
+.gender label {
+  font-size: 17px;
+}
+
+/* Thêm kiểu cho select box */
+.gender select {
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  width: 100%;
+  outline: none;
+}
+
+/* Thêm kiểu cho các option trong select */
+.gender select option {
+  background-color: #40073d;
+}
+
+/* Thêm kiểu cho option được chọn */
+.gender select option:checked {
+  background-color: #800e7a;
+}
+
+/* Thêm kiểu cho option khi hover */
+.gender select option:hover {
+  background-color: #600b5e;
+}
+
+/* Thêm kiểu cho option khi được focus */
+.gender select option:focus {
+  outline: none;
+}
+
+/* Thêm kiểu cho select khi hover */
+.gender select:hover {
+  background-color: #600b5e;
+}
+
+/* Thêm kiểu cho select khi focus */
+.gender select:focus {
+  box-shadow: 0 0 5px rgba(128, 14, 122, 0.7);
+}
+
+/* Thêm các quy tắc CSS cho nút Register */
+.btn-register {
+  text-align: center;
+}
+
+.btn-register button {
+  font-size: 18px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-register button.valid {
+  background-color: limegreen;
+  color: white;
+}
+
+.btn-register button.invalid {
+  background-color: red;
+  color: white;
+  cursor: not-allowed;
 }
 
 .instructions {
@@ -55,4 +133,19 @@
 .valid {
   color: limegreen;
   margin-left: 0.25rem;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-link a {
+  color: white; /* Màu chữ của liên kết */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-link a:hover {
+  text-decoration: underline; /* Hiệu ứng khi di chuột qua */
 }
