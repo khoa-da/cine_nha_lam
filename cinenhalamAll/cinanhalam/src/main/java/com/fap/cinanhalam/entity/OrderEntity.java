@@ -25,16 +25,18 @@ public class OrderEntity extends BaseEntity{
     @OneToMany(mappedBy = "order")
     private List<OrderDetailEntity> orderDetails = new ArrayList<>();
 
-    @OneToMany(mappedBy = "order")
-    private List<VoucherUsageEntity> voucherUsages = new ArrayList<>();
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = true)
     private UserEntity user;
 
+    @Column(name = "order_status")
+    private OrderStatus orderStatus;
+
+
     @PrePersist
     public void preOrder() {
         this.totalPrice = 0.0;
+        this.orderStatus = OrderStatus.NOT_PAY;
     }
 
 }

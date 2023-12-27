@@ -15,9 +15,16 @@ public class VoucherController {
   private VoucherService voucherService;
 
   @GetMapping(value = "/voucher")
-  public ListOutput showVouchers() {
+  public ListOutput showVouchersTrue() {
     ListOutput result = new ListOutput();
     result.setListResult(voucherService.findAllWithStatusIsTrue());
+    return result;
+  }
+
+  @GetMapping(value = "/staff/voucher")
+  public ListOutput showVouchers() {
+    ListOutput result = new ListOutput();
+    result.setListResult(voucherService.findAll());
     return result;
   }
 

@@ -45,6 +45,9 @@ public class VoucherEntity extends BaseEntity{
   @Column(name = "value")
   private Double value;
 
+  @Column(name = "needPrice")
+  private Double requirePrice;
+
 
   @Temporal(TemporalType.DATE) // Specify that only the date part should be stored
   // Specify that only the date part should be stored
@@ -52,14 +55,10 @@ public class VoucherEntity extends BaseEntity{
   @Convert(converter = DateConverter.class) // Use a custom converter
   private Date startDate;
 
-
   @Temporal(TemporalType.DATE)
   @Column(name = "end_date")
   @Convert(converter = DateConverter.class)
   private Date endDate;
-
-  @Column(name = "status")
-  private Boolean status;
 
   @Column(name="quanity")
   private int quantity;

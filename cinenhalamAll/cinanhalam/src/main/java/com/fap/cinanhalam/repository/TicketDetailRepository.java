@@ -15,6 +15,7 @@ public interface TicketDetailRepository extends JpaRepository<TicketDetailEntity
 
   List<TicketDetailEntity> findAllByOrderDetailId(Long orderDetailId);
 
+
   @Query("SELECT SUM(t.price) FROM TicketDetailEntity t WHERE t.orderDetail.id = :orderDetailId")
   Double getTotalPriceByOrderDetailId(@Param("orderDetailId") Long orderDetailId);
 }
